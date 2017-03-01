@@ -4,7 +4,7 @@ library(nnet)
 library(caret)
 library(gmodels)
 
-setwd("C:/Users/SuYoung/Desktop/challenge_data/Ã§¸°Áö¸®±×_µ¥ÀÌÅÍ")
+setwd("C:/Users/SuYoung/Desktop/challenge_data/ì±Œë¦°ì§€ë¦¬ê·¸_ë°ì´í„°")
 data<-read.csv("BGCON_CUST_DATA.csv")
 
 str(data)
@@ -15,7 +15,7 @@ column<- c('SIU_CUST_10', 'SEX', 'AGE', 'RESI_COST', 'RESI_T1PE_CODE',
            'MAX_PRM','CUST_I0CM','RCBASE_HSHD_I0CM','JPBASE_HSHD_I0CM')
 
 view <- subset(data,select=column, drop=TRUE)
-#view<-view[complete.cases(view),] #NAÁ¦°Å
+#view<-view[complete.cases(view),] #NAì œê±°
 
 #write.csv(view, "middle.csv")
 
