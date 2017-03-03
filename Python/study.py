@@ -303,3 +303,131 @@ ages = {'Tod':35, 'Jane':23, 'Paul':62}
     # print('{}의 나이는 : {}'.format(a[0], a[1]))
 for a in ages.items():
     print('{}의 나이는 : {}'.format(*a))
+
+# while문
+selected = None
+# while selected not in ['가위', '바위', '보']:
+    # selected = input('가위, 바위, 보 중에 선택하세요>')
+# print('선택된 값: ',selected)
+
+patterns = ['가위', '바위', '보']
+# for pattern in patterns:
+    # print(pattern)
+# for i in range(len(patterns)):
+    # print(patterns[i])
+length = len(patterns)
+i = 0
+while i < length:
+    print(patterns[i])
+    i += 1
+
+# break, continue
+list = [1,2,3,5,7,2,5,237,55]
+for val in list:
+    if val % 3 == 0:
+        print(val)
+        break
+# for i in range(10):
+#     if i%2 != 0:
+#         print(i)
+#         print(i)
+#         print(i)
+#         print(i)
+for i in range(10):
+    if i%2 == 0:
+        continue
+    print(i)
+    print(i)
+    print(i)
+    print(i)
+
+# try except
+text = "100%"
+try:
+    number = int(text)
+except ValueError:
+    print('{}는 숫자가 아니네요'.format(text))
+
+def safe_pop_print(list, index):
+    # try:
+    #     print(list.pop(index))
+    # except IndexError:
+    #     print('{} index의 값을 가져올 수 없습니다'.format(index))
+    if index<len(list):
+        print(list.pop(index))
+    else:
+        print('{} index의 값을 가져올 수 없습니다'.format(index))
+safe_pop_print([1,2,3],5)
+try:
+    import module
+except ImportError:
+    print('모듈이 없습니다')
+
+# 예외 이름을 모르는 경우
+try:
+    list = []
+    # print(list[0])
+    text = 'abc'
+    number = int(text)
+except Exception as ex:
+    print('{} 에러가 발생했습니다.'.format(ex))
+
+# raise
+def rsp(mine, yours):
+    allowed = ['가위','바위','보']
+    if mine not in allowed:
+        raise ValueError
+    if yours not in allowed:
+        raise ValueError
+try:
+    rsp('가위', '바')
+except ValueError:
+    print('잘못된 값을 넣은 것 같습니다')
+
+school = {'1반':{172,185,198,177,165,199}, '2반':{165,177,167,180,191}}
+try:
+    for class_number, students in school.items():
+        for student in students:
+            if student>190:
+                print(class_number,'반에 190을 넘는 학생이 있습니다')
+                raise StopIteration
+                # break
+except StopIteration:
+    print('정상종료')
+
+# 논리연산
+a = 10
+if a<0 and 2**a>1000 and a%5==2 and round(a)==a:
+    print('복잡한 식')
+def return_false():
+    print('함수return_false')
+    return False
+def return_true():
+    print('함수return_true')
+    return True
+print('테스트1')
+a = return_false()
+b = return_true()
+if a and b:
+    print(True)
+else:
+    print(False)
+print('테스트2')
+if return_false() and return_true():
+    print("True")
+else:
+    print(False)
+
+dic = {"Key2":"Value1"}
+if "Key1" in dic and dic["Key1"] == "Value":
+    print("Key1도 있고, 그 값은 Value1이네")
+else:
+    print("아니네")
+
+# bool과 논리연산
+# 숫자 0을 제외한 모든 수 - true
+# 빈 딕셔너리, 빈 리스트를 제외한 모든 딕셔너리, 리스트 - true
+# 아무 값도 없다는 의미인 None - false
+# 빈문자열을 제외한 모든 문자열 - true
+value = input('입력해주세요>') or '아무것도 못받았어'
+print('입력받은 값>', value)
