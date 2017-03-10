@@ -293,10 +293,10 @@ f = d, e # packing
 a, b = 1, 2
 a, b = b, a
 
-list = [1,2,3,4,5]
+list1 = [1,2,3,4,5]
 # for a in enumerate(list):
     # print ('{}번째 값: {}'.format(a[0], a[1]))
-for a in enumerate(list):
+for a in enumerate(list1):
     print ('{}번째 값: {}'.format(*a))
 ages = {'Tod':35, 'Jane':23, 'Paul':62}
 # for a in ages.items():
@@ -322,8 +322,8 @@ while i < length:
     i += 1
 
 # break, continue
-list = [1,2,3,5,7,2,5,237,55]
-for val in list:
+list1 = [1,2,3,5,7,2,5,237,55]
+for val in list1:
     if val % 3 == 0:
         print(val)
         break
@@ -348,13 +348,13 @@ try:
 except ValueError:
     print('{}는 숫자가 아니네요'.format(text))
 
-def safe_pop_print(list, index):
+def safe_pop_print(mylist, index):
     # try:
     #     print(list.pop(index))
     # except IndexError:
     #     print('{} index의 값을 가져올 수 없습니다'.format(index))
-    if index<len(list):
-        print(list.pop(index))
+    if index<len(mylist):
+        print(mylist.pop(index))
     else:
         print('{} index의 값을 가져올 수 없습니다'.format(index))
 safe_pop_print([1,2,3],5)
@@ -365,7 +365,7 @@ except ImportError:
 
 # 예외 이름을 모르는 경우
 try:
-    list = []
+    mylist = []
     # print(list[0])
     text = 'abc'
     number = int(text)
@@ -429,5 +429,269 @@ else:
 # 빈 딕셔너리, 빈 리스트를 제외한 모든 딕셔너리, 리스트 - true
 # 아무 값도 없다는 의미인 None - false
 # 빈문자열을 제외한 모든 문자열 - true
-value = input('입력해주세요>') or '아무것도 못받았어'
-print('입력받은 값>', value)
+# value = input('입력해주세요>') or '아무것도 못받았어'
+# print('입력받은 값>', value)
+
+# list의 기능
+list1 = [135, 467, 27, 2754, 234]
+list1.index(27)
+list2 = [1,2,3] + [4,5,6]
+list1.extend([9,10,11])
+list1.insert(2, 999)
+list1.sort() # 정렬
+list1.reverse() # 거꾸로
+
+# list와 String
+print(27 in list1)
+str = "HelloWorld"
+print("H" in str)
+str.index("r")
+charaters = list('abcdef')
+print(charaters)
+words = "Hello wolrd는 프로그래밍을 배우기에 아주 좋은 사이트"
+words_list = words.split() # string to list
+print(words_list)
+new_words = " ".join(words_list) # list to string
+print(new_words)
+
+# slicing
+text = "hello world"
+print(text[1:5])
+list1 = ['영','일','이','삼','사','오']
+print(list1[1:3])
+print(list1[0:2])
+print(list1[2:len(list1)])
+
+# step
+# list1 = [1,2,3,4,5,6,7,8,9,10]
+list1 = list( range(10) )
+print(list1[1:10:2])
+print(list1[10:2:-1])
+
+numbers = [0,1,2,3,4,5,6,7,8,9]
+del numbers[0]
+print(numbers)
+del numbers[ :5]
+print(numbers)
+numbers[1:3] = [77,88]
+print(numbers)
+
+# 자료형
+s = "Hello world"
+print( type(s) )
+i = 42
+print( type(i) )
+print(isinstance(42, int))
+
+# 클래스와 인스턴스
+numbers1 = []
+print(type(numbers))
+print(numbers1 == list)
+
+# 클래스
+class Human():
+    '''사람'''
+person1 = Human()
+person2 = Human()
+print(isinstance(person1, Human))
+person1.language = '한국어'
+person2.language = 'English'
+print(person1.language)
+print(person2.language)
+
+def speak(person) :
+    print("{}로 말을 합니다".format(person.language))
+Human.speak = speak
+person1.speak() # speak(person1)
+person2.speak() # speak(person2)
+
+# 모델링
+def create_human(name, weight) :
+    person = Human()
+    person.name = name
+    person.weight = weight
+    return person
+Human.create = create_human
+person = Human.create("철수",60.5)
+def eat(person) :
+    person.weight += 0.1
+    print("{}가 먹어서 {}kg이 되었습니다".format(person.name, person.weight))
+def walk(person) :
+    person.weight -= 0.1
+    print("{}가 걸어서 {}kg이 되었습니다".format(person.name, person.weight))
+Human.eat = eat
+Human.walk = walk
+
+person.walk()
+person.eat()
+person.walk()
+
+# 메소드
+class Human():
+    '''인간'''
+    def create(name, weight) :
+        person = Human()
+        person.name = name
+        person.weight = weight
+        return person
+    def eat(self) :
+        self.weight += 0.1
+        print("{}가 먹어서 {}kg이 되었습니다".format(self.name, self.weight))
+    def walk(self) :
+        self.weight -= 0.1
+        print("{}가 걸어서 {}kg이 되었습니다".format(self.name, self.weight))
+    def speak(self, message) :
+        print(message)
+person = Human.create("철수",60.5)
+person.walk()
+person.eat()
+person.walk()
+person.speak("안녕하세요")
+
+# 초기화 / 문자열화 함수
+class Human():
+    '''인간'''
+    def __init__(self, name, weight) :
+        '''초기화 함수'''
+        # print("__init__실행")
+        self.name = name
+        self.weight = weight
+        # print("이름은 {}, 몸무게는 {}".format(name, weight))
+    def __str__(self) :
+        '''문자열화 함수'''
+        return "{}(몸무게 {}kg)".format(self.name, self.weight)
+person = Human("사람", 60.5)
+print(person.name)
+print(person)
+
+# 상속
+class Animal():
+    def walk(self):
+        print("걷는다")
+    def eat(self) :
+        print("먹는다")
+
+class Human(Animal) :
+    def wave(self) :
+        print("손을 흔든다")
+class Dog(Animal) :
+    def wag(self) :
+        print("꼬리를 흔든다")
+person = Human()
+person.walk()
+person.eat()
+person.wave()
+
+dog = Dog()
+dog.walk()
+dog.eat()
+dog.wag()
+
+# 오버라이드 & super()
+class Animal():
+    def __init__(self, name):
+        self.name = name
+    def walk(self):
+        print("걷는다")
+    def eat(self) :
+        print("먹는다")
+    def greet(self) :
+        print("{}이/가 인사한다".format(self.name))
+class Cow(Animal) :
+    '''소'''
+
+class Human(Animal) :
+    def __init__(self, name, hand):
+        super().__init__(name)
+        self.hand = hand
+    def wave(self) :
+        print("{}을 흔들면서".format(self.hand))
+    def greet(self) :
+        self.wave()
+        super().greet()
+
+class Dog(Animal) :
+    def wag(self) :
+        print("꼬리를 흔든다")
+    def greet(self) :
+        self.wag()
+
+person = Human("사람", "오른손")
+person.greet()
+# dog = Dog()
+# dog.greet()
+# cow = Cow()
+# cow.greet()
+
+# 예외 정의
+class UnexpectedRSPValue(Exception):
+    '''가위 바위 보 중에 하나가 아닌 경우의 에러'''
+
+value = '가'
+try:
+    if value not in ['가위','바위','보']:
+        # raise ValueError("가위바위보 중에 하나의 값이어야 합니다")
+        raise UnexpectedRSPValue
+except UnexpectedRSPValue:
+    print("에러가 발생했습니다")
+
+def sing_up():
+    '''회원가입 함수'''
+
+try:
+    sing_up()
+except BadUserName:
+    print("이름으로 사용할 수 없는 입력입니다")
+except PasswordNotMatched:
+    print("입력한 패스워드가 불일치합니다")
+
+# List Comprehension
+# 예1 [ i*i for i in range(1,11) ] # [ 계산식 for문 ]
+# 예2 [ i*i for i in range(1,11) if i % 2 == 0 ] # [ 계산식 for문 조건문 ]
+# 예3 [ ( x, y ) for x in range(15) for y in range(15) ] # [ 계산식 for문 for문 ]
+areas = []
+for i in range(1,11):
+    if i%2==0:
+        areas = areas + [i*i]
+print(areas)
+areas2 = [i*i for i in range(1,11)]
+print("areas2 : ", areas2)
+areas3 = [i*i for i in range(1,11) if i%2 ==0]
+print("areas3 : ", areas3)
+print([(x,y) for x in range(15) for y in range(15)])
+
+# Dictionary Comprehension
+students = ["태연", "진우", "정현", "하늘", "성진"]
+for number, name in enumerate(students):
+    print("{}번의 이름은 {}입니다".format(number, name))
+student_dict = { "{}번".format(number+1) : name for number, name in enumerate(students) }
+print(student_dict)
+
+scores = [85, 92, 78, 90, 100]
+for x,y in zip(students, scores):
+    print(x,y)
+scroe_dict = {student:score for student,score in zip(students, scores)}
+print(scroe_dict)
+
+# datetime모듈
+import datetime
+print(datetime.datetime.now())
+start_time = datetime.datetime.now()
+print(type(start_time))
+start_time = start_time.replace(year=2016, month=2, day=1)
+print(start_time)
+start_time = datetime.datetime(2018,2,1)
+print(start_time)
+how_long = start_time - datetime.datetime.now()
+print(type(how_long))
+print(how_long.days)
+
+# timedelta 클래스
+hundred = datetime.timedelta(days=100)
+print(datetime.datetime.now()+hundred)
+hundred_before = datetime.timedelta(days=-100)
+print(datetime.datetime.now()+hundred_before)
+print(datetime.datetime.now()-hundred)
+
+tommorrow = datetime.datetime.now().replace(hour=9, minute=0, second=0) + datetime.timedelta(days=1)
+print(tommorrow)
