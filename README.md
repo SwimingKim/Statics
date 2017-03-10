@@ -30,25 +30,25 @@ ex)한국 경제 + 긍부정 형용사 --> 이 것을 분석, 하루에 한 번
 
 - 리눅스 설치 (~03.06)
 
-1) 멀티부팅을 하기 위해서 파티션을 분할한다.(window - minitool partition wizard)
-2) 부팅 usb를 만든다(rufus)
-3) 바이오스 모드에서 usb 부팅 선택 후 설치를 진행한다.
+1. 멀티부팅을 하기 위해서 파티션을 분할한다.(window - minitool partition wizard)
+2. 부팅 usb를 만든다(rufus)
+3. 바이오스 모드에서 usb 부팅 선택 후 설치를 진행한다.
 
-4) cent os상의 파티션을 분할한다.(공간확보 후 수동)
-5) 네트워크를 설정한다.
+4. cent os상의 파티션을 분할한다.(공간확보 후 수동)
+5. 네트워크를 설정한다.
 http://www.mizniz.net/31
-6) 설치 후 기본설정
-6-1) 설치가 완료되면 gui를 설치한다
+6. 설치 후 기본설정
+>1. 설치가 완료되면 gui를 설치한다
 sudo yum groups install "GNOME Desktop"
 startx
-6-2) window와 리눅스의 멀티부팅
-6-3) 한글 설정 (ibox설치 및 한영키 활성화)
+>2. window와 리눅스의 멀티부팅
+>3. 한글 설정 (ibox설치 및 한영키 활성화)
 
 - 서버 구축 (~03.09)
-7) mariadb mariadb-server를 설치한다.
-8) 방화벽 설정 및 iptables
-9) 아이피 고정
+7. mariadb mariadb-server를 설치한다.
+8. 방화벽 설정 및 iptables
+9. 아이피 고정
 
 - 크롤링
-10) python3 설치 및 필요모듈 다운로드
-11) git 연동
+10. python3 설치 및 필요모듈 다운로드
+11. git 연동
