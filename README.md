@@ -71,9 +71,11 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
 가비아 라이브러리
 https://tecadmin.net/   
 생활코딩(도메인) https://opentutorials.org/course/228/1450    
-인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/  
+인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/    
+
+
 ---------------
-- 그 밖의 접속      
+# 그 밖의 접속      
 접속 시 중요한 것은, 서버에서는 방화벽 허용 및 포트 포워딩해야 하며 클라이언트는 전용 툴이 있어야 한다.  
 
 1. 웹 접속(80) : bitnami lamp(리눅스) 및 도메인 활용     
