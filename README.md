@@ -42,7 +42,11 @@ http://www.mizniz.net/31
 sudo yum groups install "GNOME Desktop"  
 startx  
 6-2 window와 리눅스의 멀티부팅  
-6-3 한글 설정 (ibox설치 및 한영키 활성화)  
+6-3 한글 설정 (ibus설치 및 한영키 활성화)  
+yum install im-chooser  
+im-chooser #ibus 선택   
+vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 변경  
+
 
 - 서버 구축 (~03.09)
 
