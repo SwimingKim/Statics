@@ -27,7 +27,7 @@ ex)한국 경제 + 긍부정 형용사 --> 이 것을 분석, 하루에 한 번
 
 # 리눅스 서버 구축 (2017.03.05 ~)
 
-- 리눅스 설치 (~03.06)  
+- 리눅스 설치
 
 1 멀티부팅을 하기 위해서 파티션을 분할한다.(window - minitool partition wizard)  
 2 부팅 usb를 만든다(rufus)  
@@ -48,17 +48,38 @@ im-chooser #ibus 선택
 vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 변경  
 
 
-- 서버 구축 (~03.09)
+- 서버 구축
 
-7 mariadb mariadb-server를 설치한다.  
-8 방화벽 설정 및 iptables  
-9 아이피 고정  
+7 bitnami 설치 : run파일 => chmod a+x 프로그램 => ./프로그램  
+8 마리아디비 설정  
+9 방화벽 설정  
+
+- 깃 구축
+10 깃 설치 및 ssh파일 받기  
+https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/   
+11 홈페이지에 등록  
+12 클론 및 풀  
+13 아톰 에디터 설치(필요한 패키지 : git-puls, autocomplete-python, python-indent)  
 
 - 크롤링
 
-10 python3 설치 및 필요모듈 다운로드  
-11 git 연동  
+14 python3 설치 및 필요모듈 다운로드  
+15 git 연동  
 
 - 도움이 되는 사이트  
-  
-가비아 라이브러리  
+
+가비아 라이브러리
+https://tecadmin.net/   
+생활코딩(도메인) https://opentutorials.org/course/228/1450    
+인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/  
+
+- 그 밖의 접속  
+접속 시 중요한 것은, 서버에서는 방화벽 허용 및 포트 포워딩해야 하며 클라이언트는 전용 툴이 있어야 한다.  
+웹 접속 - bitnami lamp(리눅스)  
+telnet접속(23) - 서버는 서버 및 클라이언트 설치, 클라이언트(윈도우)는 설치만 활성화하면 된다.(root이외의 별도의 계정을 만들어야 함)  
+ssh접속(22) - 서버는 openssh가 필요하며 센토스에서는 기본으로 셋팅해줌. 윈도우의 경우 putty를 설치해야한다.(root이외의 별도의 계정을 만들어야 함)  
+(telnet과 ssh는 텍스트기능만 제공한다.)  
+데이터접속 - 앞의 경우와 다르게, 접속자에게 권한을 줄 수 있도록 쿼리문을 실행해야 한다.  
+Grant All PRIVILEGES ON *.* TO '아이디'@'%(아이피)' IDENTIFIED BY '비밀번호';  
+MySQL : bitnami lamp를 활용해서 phpmyadmin으로 접속하면 된다.  
+MariaDB : 윈도우의 경우 하이디디비 툴을 설치해야 한다.  
