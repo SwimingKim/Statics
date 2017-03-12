@@ -54,7 +54,8 @@ vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 �
 8 마리아디비 설정  
 9 방화벽 설정  
 
-- 깃 구축     
+- 깃 구축
+          
 10 깃 설치 및 ssh파일 받기  
 https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/   
 11 홈페이지에 등록  
