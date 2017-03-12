@@ -72,14 +72,22 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
 https://tecadmin.net/   
 생활코딩(도메인) https://opentutorials.org/course/228/1450    
 인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/  
-
-- 그 밖의 접속  
+---------------
+- 그 밖의 접속      
 접속 시 중요한 것은, 서버에서는 방화벽 허용 및 포트 포워딩해야 하며 클라이언트는 전용 툴이 있어야 한다.  
-웹 접속 - bitnami lamp(리눅스)  
-telnet접속(23) - 서버는 서버 및 클라이언트 설치, 클라이언트(윈도우)는 설치만 활성화하면 된다.(root이외의 별도의 계정을 만들어야 함)  
-ssh접속(22) - 서버는 openssh가 필요하며 센토스에서는 기본으로 셋팅해줌. 윈도우의 경우 putty를 설치해야한다.(root이외의 별도의 계정을 만들어야 함)  
+
+1. 웹 접속(80) : bitnami lamp(리눅스) 및 도메인 활용     
+
+2. telnet접속(23) : telnet 서버아이피(윈도우, 맥 동일)   
+서버는 서버 및 클라이언트 설치, 클라이언트는 설치해야 한다.(root이외의 별도의 계정을 만들어야 함)   
+윈도우는 활성화만 하면 되지만, 맥은 brew로 설치해야 한다.
+
+3. ssh접속(22) : ssh 서버계정아이디@서버아이피(윈도우, 맥 동일)   
+서버는 openssh가 설치해야 하나, 센토스에서는 기본으로 셋팅해줌.    
+윈도우의 경우 putty를 설치하면 커맨드에서도 활용가능, 맥은 그대로 활용해도 된다.(root이외의 별도의 계정을 만들어야 함)  
 (telnet과 ssh는 텍스트기능만 제공한다.)  
-데이터접속 - 앞의 경우와 다르게, 접속자에게 권한을 줄 수 있도록 쿼리문을 실행해야 한다.  
+
+4. 데이터접속(3306) : 앞의 경우와 다르게, 접속자에게 권한을 줄 수 있도록 쿼리문을 실행해야 한다.  
 Grant All PRIVILEGES ON *.* TO '아이디'@'%(아이피)' IDENTIFIED BY '비밀번호';  
 MySQL : bitnami lamp를 활용해서 phpmyadmin으로 접속하면 된다.  
-MariaDB : 윈도우의 경우 하이디디비 툴을 설치해야 한다.  
+MariaDB : GUI툴로 윈도우의 경우 HeidiSQL, 맥은 Sequel Pro가 있다.
