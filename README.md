@@ -55,7 +55,7 @@ vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 �
 9 방화벽 설정  
 
 - 깃 구축
-          
+
 10 깃 설치 및 ssh파일 받기  
 https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/   
 11 홈페이지에 등록  
@@ -90,7 +90,19 @@ https://tecadmin.net/
 윈도우의 경우 putty를 설치하면 커맨드에서도 활용가능, 맥은 그대로 활용해도 된다.(root이외의 별도의 계정을 만들어야 함)  
 (telnet과 ssh는 텍스트기능만 제공한다.)  
 
-4. 데이터접속(3306) : 앞의 경우와 다르게, 접속자에게 권한을 줄 수 있도록 쿼리문을 실행해야 한다.  
+4. 데이터접속(3306) : 앞의 경우와 다르게, 접속자에게 권한을 줄 수 있도록 쿼리문을 실행해야 한다.
+use mysql;  
 Grant All PRIVILEGES ON *.* TO '아이디'@'%(아이피)' IDENTIFIED BY '비밀번호';  
 MySQL : bitnami lamp를 활용해서 phpmyadmin으로 접속하면 된다.  
 MariaDB : GUI툴로 윈도우의 경우 HeidiSQL, 맥은 Sequel Pro가 있다.
+
+
+-------
+
+# 우분투 설치  
+
+playonlinux로 카카오톡을 설치한다  
+git : ssh 연결  
+
+apt-get : 설치  
+su root : root권한 얻기  
