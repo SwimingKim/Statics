@@ -106,3 +106,4 @@ git : ssh 연결
 
 apt-get : 설치  
 su root : root권한 얻기  
+   
