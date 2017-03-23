@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 # 출력 파일 명
 OUTPUT_FILE_NAME = 'output.txt'
 # 긁어 올 URL
-URL = 'http://news.naver.com/main/read.nhn?mode=LSD&mid=shm&sid1=103&oid=055'\
+URL = 'http://news.naver.com/main/read.nhn?mode=LSD&mid=shm&sid1=103&oid=055' \
       '&aid=0000445667'
 
 

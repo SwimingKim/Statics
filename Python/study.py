@@ -209,7 +209,7 @@ for i in range(len(names)):
 for i, name in enumerate(names):
     print('{}번: {}'.format(i+1, name))
 # for i in range(11172):
-    # print(chr(44032+i), end='')
+# print(chr(44032+i), end='')
 
 # 모듈 사용하기
 def get_web(url):
@@ -295,26 +295,26 @@ a, b = b, a
 
 list1 = [1,2,3,4,5]
 # for a in enumerate(list):
-    # print ('{}번째 값: {}'.format(a[0], a[1]))
+# print ('{}번째 값: {}'.format(a[0], a[1]))
 for a in enumerate(list1):
     print ('{}번째 값: {}'.format(*a))
 ages = {'Tod':35, 'Jane':23, 'Paul':62}
 # for a in ages.items():
-    # print('{}의 나이는 : {}'.format(a[0], a[1]))
+# print('{}의 나이는 : {}'.format(a[0], a[1]))
 for a in ages.items():
     print('{}의 나이는 : {}'.format(*a))
 
 # while문
 selected = None
 # while selected not in ['가위', '바위', '보']:
-    # selected = input('가위, 바위, 보 중에 선택하세요>')
+# selected = input('가위, 바위, 보 중에 선택하세요>')
 # print('선택된 값: ',selected)
 
 patterns = ['가위', '바위', '보']
 # for pattern in patterns:
-    # print(pattern)
+# print(pattern)
 # for i in range(len(patterns)):
-    # print(patterns[i])
+# print(patterns[i])
 length = len(patterns)
 i = 0
 while i < length:
