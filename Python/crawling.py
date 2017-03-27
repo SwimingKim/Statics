@@ -8,9 +8,8 @@ from bs4 import BeautifulSoup
 OUTPUT_FILE_NAME = 'output.txt'
 # 긁어 올 URL
 URL = 'http://news.naver.com/main/read.nhn?mode=LSD&mid=shm&sid1=103&oid=055' \
-      '&aid=0000445667'
-
-
+      '&aid=0000445667
+      
 # 크롤링 함수
 def get_text(URL):
     source_code_from_URL = urllib.request.urlopen(URL)
