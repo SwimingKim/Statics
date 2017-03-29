@@ -1,5 +1,51 @@
 # R
 # Python
+## 기본 문법
+- 조건문
+
+```
+  if True :
+    print("True입니다.")
+  elif False :
+    print("False입니다.")
+  else :
+    print("알 수 없습니다.")
+```
+- 반복문
+
+```
+  for row in list :
+    print("{}입니다.".format(row))
+  for row in range(10) :
+    print("{}입니다.".format(row))
+
+  while condition :
+    pritn("반복하는 중입니다.")
+```
+- 함수  
+
+```
+  def mfunc() :
+    print("함수입니다.")
+```
+- 클래스
+
+```
+class mCls(부모) :
+  def __init__(self, user) :
+    self.user = user;
+
+```
+
+
+
+
+
+
+
+
+
+
 
 # 스터디계획
 
