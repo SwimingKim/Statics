@@ -1,4 +1,5 @@
 # R
+
 # Python
 ## 기본 문법
 - 컴퓨터의 출력과 사용자의 입력
@@ -99,18 +100,9 @@ class mCls(부모) :
 
 ```
 
+## 스터디계획
 
-
-
-
-
-
-
-
-
-
-# 스터디계획
-
+```
 0 딥러닝 강의는 맨날 들음
 
 1 서버를 만듦  
@@ -131,9 +123,11 @@ ex)한국 경제 + 긍부정 형용사 --> 이 것을 분석, 하루에 한 번
 9 파이썬 시스템 트레이딩 방법을 공부함  
 10 rnn, cnn 모델을 시스템 트레이딩 코드와 연동  
 11 자동 거래  
+```
 
+## 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
 
-# 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
+```
 
 - 리눅스 설치
 
@@ -154,7 +148,6 @@ startx
 yum install im-chooser  
 im-chooser #ibus 선택   
 vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 변경  
-
 
 - 서버 구축
 
@@ -182,9 +175,11 @@ https://tecadmin.net/
 생활코딩(도메인) https://opentutorials.org/course/228/1450    
 인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/    
 
+```
 
----------------
-# 그 밖의 접속      
+## 그 밖의 접속      
+
+```
 접속 시 중요한 것은, 서버에서는 방화벽 허용 및 포트 포워딩해야 하며 클라이언트는 전용 툴이 있어야 한다.  
 
 1. 웹 접속(80) : bitnami lamp(리눅스) 및 도메인 활용     
@@ -203,14 +198,14 @@ use mysql;
 Grant All PRIVILEGES ON *.* TO '아이디'@'%(아이피)' IDENTIFIED BY '비밀번호';  
 MySQL : bitnami lamp를 활용해서 phpmyadmin으로 접속하면 된다.  
 MariaDB : GUI툴로 윈도우의 경우 HeidiSQL, 맥은 Sequel Pro가 있다.
+```
 
+## 우분투 설치  
 
--------
-
-# 우분투 설치  
-
+```
 playonlinux로 카카오톡을 설치한다  
 git : ssh 연결  
 
 apt-get : 설치  
 su root : root권한 얻기  
+```
