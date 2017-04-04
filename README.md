@@ -1,8 +1,108 @@
 # R
+
 # Python
+## 기본 문법
+- 컴퓨터의 출력과 사용자의 입력
 
-# 스터디계획
+```
+print("출력합니다.")
+num = input()
+```
 
+- 조건문
+
+```
+  if True :
+    print("True입니다.")
+  elif False :
+    print("False입니다.")
+  else :
+    print("알 수 없습니다.")
+```
+
+- 반복문
+
+```
+  for row in list :
+    print("{}입니다.".format(row))
+  for row in range(10) :
+    print("{}입니다.".format(row))
+
+  # 리스트의 for문
+  names = ['철수', '영희', '바둑이', '귀도']
+  for i in range(len(names)):
+      name = names[i]
+      print('{}번: {}'.format(i+1, name))
+  for i, name in enumerate(names):
+      print('{}번: {}'.format(i+1, name))
+
+  # 딕션너리의 for문
+  ages = {'Tod':35, 'Jane':23, 'Paul':62}
+  for key in ages.keys():
+      print(key);
+  for value in ages.values():
+      print(value);
+  for key in ages: # for key in ages.keys():
+      print('{}의 나이는 {}입니다'.format(key, ages[key]))
+
+  while condition :
+    pritn("반복하는 중입니다.")
+```
+
+- 집단 자료형
+
+```
+# 리스트
+mlist = [1,2,3,4]
+mlist.appen(5) # 추가1
+mlist += [6,7,8] # 추가2
+check = mlist in 4 # 값 존재 확인
+del(mlist[3]) # 삭제1
+mlist.remove(8) # 삭제2 : 해당 값
+mlist.pop(0) # 삭제3 : 인덱스
+
+# 딕션너리
+mdict = {
+  'one' : 1,
+  'two' : 2,
+  'three' : 3,
+}
+mdict['one'] = 11 # 수정
+mdict['three'] = 3 # 추가
+del(mdict['one']) # 삭제1
+mdict.pop('two') # 삭제2
+mdict.clear() # 전부 삭제
+tmpdict = {'one':100, 'two':200}
+mdict.update(tmpdict)
+
+# 튜플
+tuple1 = (1, 2, 3)
+typle2 = 1,2,3
+tuple3 = tuple(list1)
+c = (3, 4) # packing
+d, e = c # unpacking
+f = d, e # packing
+```
+
+- 함수  
+
+```
+  def mfunc() :
+    print("함수입니다.")
+```
+
+- 클래스
+
+```
+class mCls(부모) :
+  def __init__(self, user) :
+    self.user = user;
+
+```
+
+## 스터디계획
+
+```
 0 딥러닝 강의는 맨날 들음
 
 1 서버를 만듦  
@@ -23,9 +123,11 @@ ex)한국 경제 + 긍부정 형용사 --> 이 것을 분석, 하루에 한 번
 9 파이썬 시스템 트레이딩 방법을 공부함  
 10 rnn, cnn 모델을 시스템 트레이딩 코드와 연동  
 11 자동 거래  
+```
 
+## 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
 
-# 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
+```
 
 - 리눅스 설치
 
@@ -46,7 +148,6 @@ startx
 yum install im-chooser  
 im-chooser #ibus 선택   
 vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 변경  
-
 
 - 서버 구축
 
@@ -74,9 +175,11 @@ https://tecadmin.net/
 생활코딩(도메인) https://opentutorials.org/course/228/1450    
 인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/    
 
+```
 
----------------
-# 그 밖의 접속      
+## 그 밖의 접속      
+
+```
 접속 시 중요한 것은, 서버에서는 방화벽 허용 및 포트 포워딩해야 하며 클라이언트는 전용 툴이 있어야 한다.  
 
 1. 웹 접속(80) : bitnami lamp(리눅스) 및 도메인 활용     
@@ -95,14 +198,14 @@ use mysql;
 Grant All PRIVILEGES ON *.* TO '아이디'@'%(아이피)' IDENTIFIED BY '비밀번호';  
 MySQL : bitnami lamp를 활용해서 phpmyadmin으로 접속하면 된다.  
 MariaDB : GUI툴로 윈도우의 경우 HeidiSQL, 맥은 Sequel Pro가 있다.
+```
 
+## 우분투 설치  
 
--------
-
-# 우분투 설치  
-
+```
 playonlinux로 카카오톡을 설치한다  
 git : ssh 연결  
 
 apt-get : 설치  
 su root : root권한 얻기  
+```
