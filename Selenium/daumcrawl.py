@@ -11,7 +11,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 s = datetime.datetime.now()
-driver = webdriver.Chrome(executable_path='/Users/suyoung/Documents/Dev/chromedriver')
+# driver = webdriver.Chrome(executable_path='/Users/suyoung/Documents/Dev/chromedriver')
+driver = webdriver.Firefox(executable_path='/usr/bin/geckodriver')
 driver.get("http://m.cafe.daum.net/ok1221/8lcX?prev_page=2&firstbbsdepth=1ic8e&lastbbsdepth=1ic8J&page=1")
 
 text = ''
@@ -33,7 +34,7 @@ FILE_NAME = 'result.txt'
 
 def crawling() :
     global text, count, exp_num, num_data
-    for i in range(1, 5, 1) :
+    for i in range(1, 10, 1) :
         print("first i ", i)
         URL = driver.current_url
 
@@ -42,7 +43,6 @@ def crawling() :
         exp = ['------＜17학번 새내기 달글 6＞------- ','📢📢익담 자체공지 모르겠는 도토들은 모이세요📢📢','익담 공지  (고등학생 출입금지 / 남성출입금지)']
 
         print(URL)
-
         if count == 0 :
             num_count = 0
             for num in sour.find_all("span", class_="num_info") :
@@ -54,7 +54,7 @@ def crawling() :
                 print(dum_num)
 
         num_count = 0
-        for num_item in sour.find_add("span", class_="num_info") :
+        for num_item in sour.find_all("span", class_="num_info") :
             temp2 = num_item.get_text()
             if temp2 in exp_num :
                 continue
@@ -74,7 +74,7 @@ def crawling() :
             print("i", i)
             print("i+1", i+1)
             link2 = driver.find_element_by_link_text("다음페이지")
-            link2.clikc()
+            link2.click()
             i += 2
             time.sleep(random.uniform(2, 3))
 
@@ -84,7 +84,8 @@ def crawling() :
             print("i+1", i+1)
             link.click()
             time.sleep(random.uniform(2, 3))
-        cout += 1
+        count += 1
+
     return text
 
 myfile = open(FILE_NAME, 'w')

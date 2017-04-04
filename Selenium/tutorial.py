@@ -2,7 +2,8 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-driver = webdriver.Chrome(executable_path='/Users/suyoung/Documents/Dev/chromedriver')
+# driver = webdriver.Chrome(executable_path='/Users/suyoung/Documents/Dev/chromedriver')
+driver = webdriver.Firefox(executable_path='/usr/bin/geckodriver')
 URL = "http://www.python.org"
 
 class PythonOrgSearce(unittest.TestCase) :
