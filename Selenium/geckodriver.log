@@ -1,0 +1,345 @@
+1491270944990	geckodriver	INFO	Listening on 127.0.0.1:37369
+1491270946192	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.THD5o1JbPxd2
+1491270946195	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491270946203	geckodriver::marionette	INFO	Connecting to Marionette on localhost:43741
+1491270948823	Marionette	INFO	Listening on port 43741
+1491270949742	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+(firefox:7144): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f32f005d510' of type 'MaiAtkType139'
+
+** (firefox:7144): CRITICAL **: impl_GetURI: assertion 'ATK_IS_HYPERLINK (link)' failed
+1491271014300	geckodriver	INFO	Listening on 127.0.0.1:56845
+1491271015490	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.0WLDROtoBYlp
+1491271015493	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491271015498	geckodriver::marionette	INFO	Connecting to Marionette on localhost:37139
+1491271018341	Marionette	INFO	Listening on port 37139
+1491271019415	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+###!!! [Child][DispatchSyncMessage] Error: PDocAccessible::Msg_Name Route error: message sent to unknown actor ID
+
+[Child 7203] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+[Child 7203] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+1491271150209	geckodriver	INFO	Listening on 127.0.0.1:33647
+1491271151410	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.zB8eWc4KO7dA
+1491271151414	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491271151421	geckodriver::marionette	INFO	Connecting to Marionette on localhost:45775
+1491271153790	Marionette	INFO	Listening on port 45775
+1491271154697	Marionette	WARN	TLS certificate errors will be ignored for this session
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1491271848230	geckodriver	INFO	Listening on 127.0.0.1:50855
+1491271849479	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.LzDKxM1mT3V6
+1491271849481	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491271849497	geckodriver::marionette	INFO	Connecting to Marionette on localhost:34181
+1491271851918	Marionette	INFO	Listening on port 34181
+1491271852859	Marionette	WARN	TLS certificate errors will be ignored for this session
+1491272255942	geckodriver	INFO	Listening on 127.0.0.1:58027
+1491272257135	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.kF04b1mNGCs8
+1491272257138	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491272257149	geckodriver::marionette	INFO	Connecting to Marionette on localhost:35043
+1491272259632	Marionette	INFO	Listening on port 35043
+1491272260578	Marionette	WARN	TLS certificate errors will be ignored for this session
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1491272945062	geckodriver	INFO	Listening on 127.0.0.1:40833
+1491272946288	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.Hw3IoLZdK3xP
+1491272946291	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491272946297	geckodriver::marionette	INFO	Connecting to Marionette on localhost:33597
+1491272948719	Marionette	INFO	Listening on port 33597
+1491272950421	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+** (firefox:9385): CRITICAL **: impl_GetURI: assertion 'ATK_IS_HYPERLINK (link)' failed
+
+** (firefox:9385): CRITICAL **: impl_get_StartIndex: assertion 'ATK_IS_HYPERLINK (link)' failed
+
+** (firefox:9385): CRITICAL **: impl_GetURI: assertion 'ATK_IS_HYPERLINK (link)' failed
+
+** (firefox:9385): CRITICAL **: impl_get_StartIndex: assertion 'ATK_IS_HYPERLINK (link)' failed
+1491272999008	geckodriver	INFO	Listening on 127.0.0.1:44407
+1491273000316	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.hCGg8fPu3joa
+1491273000318	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491273000328	geckodriver::marionette	INFO	Connecting to Marionette on localhost:38093
+1491273003129	Marionette	INFO	Listening on port 38093
+1491273004132	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+(firefox:9504): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f777de91bf0' of type 'MaiAtkType13b'
+1491273094401	geckodriver	INFO	Listening on 127.0.0.1:55575
+1491273095607	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.qktCiYlT28wG
+1491273095610	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491273095616	geckodriver::marionette	INFO	Connecting to Marionette on localhost:46457
+1491273097929	Marionette	INFO	Listening on port 46457
+1491273098845	Marionette	WARN	TLS certificate errors will be ignored for this session
+1491273169928	geckodriver	INFO	Listening on 127.0.0.1:36869
+1491273171150	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.3LeTFXUKH8GE
+1491273171153	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1491273171160	geckodriver::marionette	INFO	Connecting to Marionette on localhost:39565
+1491273173566	Marionette	INFO	Listening on port 39565
+1491273174482	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+(firefox:9676): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f21af2e8a10' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666a29380' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666a92f60' of type 'MaiAtkType139'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666a29380' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666982f10' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666a29560' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666c431a0' of type 'MaiAtkType13b'
+
+(firefox:9810): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe666c43240' of type 'MaiAtkType13b'
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+
+###!!! [Child][DispatchSyncMessage] Error: PDocAccessible::Msg_Attributes Route error: message sent to unknown actor ID
+
+[Child 9560] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+[Child 9560] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580030,name=PDocAccessible::Msg_SelectionCount) Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x58001D,name=PDocAccessible::Msg_Relations) Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x58001D,name=PDocAccessible::Msg_Relations) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Child][DispatchSyncMessage] Error: PDocAccessible::Msg_CaretOffset Route error: message sent to unknown actor ID
+
+[Child 9733] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+[Child 9733] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+
+###!!! [Child][DispatchSyncMessage] Error: PDocAccessible::Msg_Relations Route error: message sent to unknown actor ID
+
+[Child 9861] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+[Child 9861] ###!!! ABORT: Content child abort due to IPC error: file /build/firefox-bLMGaO/firefox-52.0.2+build1/dom/ipc/ContentChild.cpp, line 2187
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580032,name=PDocAccessible::Msg_TextSubstring) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580011,name=PDocAccessible::Msg_Name) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580011,name=PDocAccessible::Msg_Name) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580019,name=PDocAccessible::Msg_Attributes) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580032,name=PDocAccessible::Msg_TextSubstring) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580011,name=PDocAccessible::Msg_Name) Channel error: cannot send/recv
+
+
+###!!! [Parent][MessageChannel::SendAndWait] Error: (msgtype=0x580011,name=PDocAccessible::Msg_Name) Channel error: cannot send/recv
+
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+
+** (firefox:9810): CRITICAL **: impl_GetURI: assertion 'ATK_IS_HYPERLINK (link)' failed
+
+** (firefox:9810): CRITICAL **: impl_GetURI: assertion 'ATK_IS_HYPERLINK (link)' failed
