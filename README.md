@@ -12,41 +12,41 @@ num = input()
 - 조건문
 
 ```
-  if True :
-    print("True입니다.")
-  elif False :
-    print("False입니다.")
-  else :
-    print("알 수 없습니다.")
+if True :
+  print("True입니다.")
+elif False :
+  print("False입니다.")
+else :
+  print("알 수 없습니다.")
 ```
 
 - 반복문
 
 ```
-  for row in list :
-    print("{}입니다.".format(row))
-  for row in range(10) :
-    print("{}입니다.".format(row))
+for row in list :
+  print("{}입니다.".format(row))
+for row in range(10) :
+  print("{}입니다.".format(row))
 
-  # 리스트의 for문
-  names = ['철수', '영희', '바둑이', '귀도']
-  for i in range(len(names)):
-      name = names[i]
-      print('{}번: {}'.format(i+1, name))
-  for i, name in enumerate(names):
-      print('{}번: {}'.format(i+1, name))
+# 리스트의 for문
+names = ['철수', '영희', '바둑이', '귀도']
+for i in range(len(names)):
+    name = names[i]
+    print('{}번: {}'.format(i+1, name))
+for i, name in enumerate(names):
+    print('{}번: {}'.format(i+1, name))
 
-  # 딕션너리의 for문
-  ages = {'Tod':35, 'Jane':23, 'Paul':62}
-  for key in ages.keys():
-      print(key);
-  for value in ages.values():
-      print(value);
-  for key in ages: # for key in ages.keys():
-      print('{}의 나이는 {}입니다'.format(key, ages[key]))
+# 딕션너리의 for문
+ages = {'Tod':35, 'Jane':23, 'Paul':62}
+for key in ages.keys():
+    print(key);
+for value in ages.values():
+    print(value);
+for key in ages: # for key in ages.keys():
+    print('{}의 나이는 {}입니다'.format(key, ages[key]))
 
-  while condition :
-    pritn("반복하는 중입니다.")
+while condition :
+  pritn("반복하는 중입니다.")
 ```
 
 - 집단 자료형
@@ -87,8 +87,8 @@ f = d, e # packing
 - 함수  
 
 ```
-  def mfunc() :
-    print("함수입니다.")
+def mfunc() :
+  print("함수입니다.")
 ```
 
 - 클래스
@@ -97,13 +97,11 @@ f = d, e # packing
 class mCls(부모) :
   def __init__(self, user) :
     self.user = user;
-
 ```
 
 ## 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
 
 ```
-
 - 리눅스 설치
 
 1 멀티부팅을 하기 위해서 파티션을 분할한다.(window - minitool partition wizard)  
@@ -148,8 +146,7 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
 가비아 라이브러리
 https://tecadmin.net/   
 생활코딩(도메인) https://opentutorials.org/course/228/1450    
-인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/    
-
+인프런 이것이 리눅스다 https://www.inflearn.com/course/%ec%9d%b4%ea%b2%83%ec%9d%b4-%eb%a6%ac%eb%88%85%ec%8a%a4%eb%8b%a4/
 ```
 
 ## 그 밖의 접속      
