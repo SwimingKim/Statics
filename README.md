@@ -4,14 +4,14 @@
 ## 기본 문법
 - 컴퓨터의 출력과 사용자의 입력
 
-```
+```python
 print("출력합니다.")
 num = input()
 ```
 
 - 조건문
 
-```
+```python
 if True :
   print("True입니다.")
 elif False :
@@ -22,7 +22,7 @@ else :
 
 - 반복문
 
-```
+```python
 for row in list :
   print("{}입니다.".format(row))
 for row in range(10) :
@@ -51,7 +51,7 @@ while condition :
 
 - 집단 자료형
 
-```
+```python
 # 리스트
 mlist = [1,2,3,4]
 mlist.appen(5) # 추가1
@@ -86,14 +86,14 @@ f = d, e # packing
 
 - 함수  
 
-```
+```python
 def mfunc() :
   print("함수입니다.")
 ```
 
 - 클래스
 
-```
+```python
 class mCls(부모) :
   def __init__(self, user) :
     self.user = user;
