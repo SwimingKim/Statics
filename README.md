@@ -2,14 +2,14 @@
 
 # Python
 ## 기본 문법
-- 컴퓨터의 출력과 사용자의 입력
+### 컴퓨터의 출력과 사용자의 입력
 
 ```python
 print("출력합니다.")
 num = input()
 ```
 
-- 조건문
+### 조건문
 
 ```python
 if True :
@@ -20,7 +20,7 @@ else :
   print("알 수 없습니다.")
 ```
 
-- 반복문
+### 반복문
 
 ```python
 for row in list :
@@ -49,7 +49,7 @@ while condition :
   pritn("반복하는 중입니다.")
 ```
 
-- 집단 자료형
+### 집단 자료형
 
 ```python
 # 리스트
@@ -84,14 +84,14 @@ d, e = c # unpacking
 f = d, e # packing
 ```
 
-- 함수  
+### 함수  
 
 ```python
 def mfunc() :
   print("함수입니다.")
 ```
 
-- 클래스
+### 클래스
 
 ```python
 class mCls(부모) :
@@ -99,10 +99,22 @@ class mCls(부모) :
     self.user = user;
 ```
 
-## 리눅스 서버 구축 (2017.03.05 ~) : 삭제하지 말자!  
+## Docker
+```
+docker pull ubuntu:16.04
+docker run -it -v /host/path:/guest/path --name mydocker ubuntu:16.04 bash
+docker exec -it mydocker
+```
+```
+docker images
+docker ps -a
+```
+
+
+## 리눅스 서버 구축  
 
 ```
-- 리눅스 설치
+# 리눅스 설치
 
 1 멀티부팅을 하기 위해서 파티션을 분할한다.(window - minitool partition wizard)  
 2 부팅 usb를 만든다(rufus)  
@@ -122,13 +134,13 @@ yum install im-chooser
 im-chooser #ibus 선택   
 vi /usr/share/X11/xkb/symbols/altwin # melt_alt의 symbols[Group]을 Hangul로 변경  
 
-- 서버 구축
+# 서버 구축
 
 7 bitnami 설치 : run파일 => chmod a+x 프로그램 => ./프로그램  
 8 마리아디비 설정  
 9 방화벽 설정  
 
-- 깃 구축
+# 깃 구축
 
 10 깃 설치 및 ssh파일 받기  
 https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/   
@@ -136,12 +148,12 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
 12 클론 및 풀  
 13 아톰 에디터 설치(필요한 패키지 : git-puls, autocomplete-python, python-indent)  
 
-- 크롤링
+# 크롤링
 
 14 python3 설치 및 필요모듈 다운로드  
 15 git 연동  
 
-- 도움이 되는 사이트  
+# 도움이 되는 사이트  
 
 가비아 라이브러리
 https://tecadmin.net/   
