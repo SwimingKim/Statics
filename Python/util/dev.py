@@ -1,5 +1,4 @@
 #-*-coding:utf-8
-
 import os;
 import sys;
 import shutil;
@@ -117,6 +116,12 @@ def build() :
     app.다른_이름으로_저장.Button1.click()
     print("build")
 
+def remove() :
+    path = "//sdcard//CJHP_TEST//"
+    os.system("adb shell am force-stop kr.co.nod.cjhtmlplayer_unlock;")
+    os.system("adb shell rm -rf %s" % path)
+    os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
+    print("adb remove")
 
 def setting( mode ) :
     if mode == "publish" :
@@ -132,6 +137,8 @@ def setting( mode ) :
         push();
     elif mode == "build" :
         build();
+    elif mode == "remove" :
+        remove();
 
 setting( strMode )
 
