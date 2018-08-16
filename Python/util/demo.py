@@ -8,6 +8,8 @@ import time
 import subprocess
 
 
+lastX = 0
+lastY = 0
 scale = 0.5
 
 def sendMessage(deviceId, message, result=False):
@@ -59,12 +61,22 @@ def key(event):
     print("pressed", keyValue)
 
 def callback(event):
+    global lastX
+    global lastY
+    lastX = event.x
+    lastY = event.y
     for device in conectedDevices:
         sendMessage(device, "shell input tap {} {}".format(event.x * int(1/scale), event.y * int(1/scale)))
     print("clicked at", event.x, event.y)
 
-
-
+def swife(event):
+    global lastX
+    global lastY
+    if lastX == event.x and lastY == event.y:
+        pass
+    for device in conectedDevices:
+        sendMessage(device, "shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
+    print("swift", event.x, event.y)
 
 def update_image_file(dst):
     """ Overwrite (or create) destination file by copying successive image 
@@ -105,7 +117,9 @@ root.geometry(wmSize)
 
 canvas= tk.Canvas(root, width=w, height=h)
 canvas.bind("<Key>", key)
-canvas.bind("<Button-1>", callback)
+# screen.bind("<ButtonPress-1>", scroll_start)
+canvas.bind("<ButtonPress-1>", callback)
+canvas.bind("<ButtonRelease-1>", swife)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
