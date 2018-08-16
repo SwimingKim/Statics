@@ -4,21 +4,26 @@ from tkinter import *
 import os
 
 def sendMessage(deviceId, message, result=False):
+    cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
-        text = subprocess.check_output("adb -s %s %s" % (deviceId, message) , shell=True)
+        text = subprocess.check_output(cmd , shell=True)
         return text
     else :
-        os.system("adb -s %s %s" % (deviceId, message))
+        os.system(cmd)
         return "no text"
 
 def screenshot() :
     sendMessage(conectedDevices[0], "shell screencap -p /sdcard/screen.png")
     sendMessage(conectedDevices[0], "pull /sdcard/screen.png")
 
-devices = subprocess.check_output('adb devices', shell=True)
+def adbPath() :
+    return "/Users/suyoung/Library/Android/sdk/platform-tools/adb"
+
+cmd = '{} devices'.format(adbPath())
+devices = subprocess.check_output(cmd, shell=True)
 conectedDevices = list()
 
-devicelist = str(devices).split('\\r\\n')
+devicelist = str(devices).split('\\n')
 for device in devicelist:
     if len(device) != 28:
         continue
@@ -26,21 +31,21 @@ for device in devicelist:
     conectedDevices.append(device)
 
 wmSize = sendMessage(conectedDevices[0], "shell wm size", True)
-wmSize = list(str(wmSize).split("\\r\\nOverride size: "))[-1].replace("\\r\\n", "")
+wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
 wmSize = wmSize.replace("'", "")
 w = wmSize.split("x")[0]
 h = wmSize.split("x")[1]
 
 screenshot()
 
-# for device in conectedDevices:
-#     sendMessage(device, "shell input keyevent 26")
-    # sendMessage(device, "input keyevent 3")
-    # sendMessage(device, "input swipe 100 500 100 1450 100")
-    # sendMessage(device, "wm size", True)
-    # sendMessage(device, "screencap -p /sdcard/screen.png")
-    # sendMessage(device, "rm /sdcard/screen.png")
-    # sendMessage(device, "rm /sdcard/sc.png")
+# # for device in conectedDevices:
+# #     sendMessage(device, "shell input keyevent 26")
+#     # sendMessage(device, "input keyevent 3")
+#     # sendMessage(device, "input swipe 100 500 100 1450 100")
+#     # sendMessage(device, "wm size", True)
+#     # sendMessage(device, "screencap -p /sdcard/screen.png")
+#     # sendMessage(device, "rm /sdcard/screen.png")
+#     # sendMessage(device, "rm /sdcard/sc.png")
 
     
 def key(event):
