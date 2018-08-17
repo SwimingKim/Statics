@@ -18,7 +18,7 @@ def screenshot() :
 devices = subprocess.check_output('adb devices', shell=True)
 conectedDevices = list()
 
-devicelist = str(devices).split('\\r\\n')
+devicelist = str(devices).split('\\n')
 del devicelist[0]
 for device in devicelist:
     device = device.replace(" ", "")
@@ -27,7 +27,6 @@ for device in devicelist:
     if len(device) >= 16:
         conectedDevices.append(device)
 
-print(conectedDevices)
 wmSize = sendMessage(conectedDevices[0], "shell wm size", True)
 wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
 wmSize = wmSize.replace("'", "")
@@ -46,14 +45,14 @@ screenshot()
     # sendMessage(device, "rm /sdcard/screen.png")
     # sendMessage(device, "rm /sdcard/sc.png")
 
-root = Tk()
-root.title("Android Devices")
-root.geometry(wmSize)
-bg = PhotoImage(file = "screen.png")
-# wall_label = Label(image = wall)
-# wall_label.place(x = -2,y = -2)
+# root = Tk()
+# root.title("Android Devices")
+# root.geometry(wmSize)
+# bg = PhotoImage(file = "screen.png")
+# # wall_label = Label(image = wall)
+# # wall_label.place(x = -2,y = -2)
 
-canvas= Canvas(root, width=w, height=h)
+# canvas= Canvas(root, width=w, height=h)
     
 def key(event):
     value = repr(event.char)
@@ -76,14 +75,14 @@ def callback(event):
         sendMessage(device, "shell input tap {} {}".format(event.x, event.y))
     print("clicked at", event.x, event.y)
 
-# root = Tk()
-# root.title("Android Devices")
-# root.geometry(wmSize)
-# bg = PhotoImage(file = "screen.png")
-# wall_label = Label(image = wall)
-# wall_label.place(x = -2,y = -2)
+root = Tk()
+root.title("Android Devices")
+root.geometry(wmSize)
+bg = PhotoImage(file = "screen.png")
+wall_label = Label(image = wall)
+wall_label.place(x = -2,y = -2)
 
-# canvas= Canvas(root, width=w, height=h)
+canvas= Canvas(root, width=w, height=h)
 canvas.bind("<Key>", key)
 canvas.bind("<Button-1>", callback)
 bgImg = canvas.create_image(0, 0, image=bg, anchor='nw')
