@@ -26,22 +26,26 @@ def screenshot() :
     sendMessage(conectedDevices[0], "pull /sdcard/screen.png")
 
 def adbPath() :
-    return "/Users/suyoung/Library/Android/sdk/platform-tools/adb"
+    return "C:\\Users\\imfine\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
+    # return "/Users/suyoung/Library/Android/sdk/platform-tools/adb"
 
 cmd = '{} devices'.format(adbPath())
 devices = subprocess.check_output(cmd, shell=True)
 conectedDevices = list()
 
-devicelist = str(devices).split('\\n')
+devicelist = str(devices).split('\\r\\n')
+del devicelist[0]
 for device in devicelist:
-    if len(device) != 28:
-        continue
+    device = device.replace(" ", "")
+    device = device.replace("'", "")
     device = device.replace("\\tdevice", "")
-    conectedDevices.append(device)
+    if len(device) >= 16:
+        conectedDevices.append(device)
 
 wmSize = sendMessage(conectedDevices[0], "shell wm size", True)
 wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
 wmSize = wmSize.replace("'", "")
+wmSize = wmSize.replace("\\r", "")
 w = int(int(wmSize.split("x")[0]) * scale)
 h = int(int(wmSize.split("x")[1]) * scale)
 wmSize = str(w)+"x"+str(h)
