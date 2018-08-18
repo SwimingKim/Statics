@@ -24,9 +24,15 @@ def screenshot(deviceId) :
     sendMessage(deviceId, "pull /sdcard/screen.png")
     # sendMessage(deviceId, "pull /mnt/sdcard/screen.png")
 
+def addRootPath() :
+    # return "C:\\Users\\imfine\\AppData\\Local\\Android\\Sdk\\platform-tools\\"
+    return "/Users/suyoung/Library/Android/sdk/platform-tools/"
+
 def adbPath() :
-    # return "C:\\Users\\imfine\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
-    return "/Users/suyoung/Library/Android/sdk/platform-tools/adb"
+    return addRootPath()+"adb"
+
+def sqlitePath() :
+    return addRootPath()+"sqlite3"
 
 lastX = 0
 lastY = 0
@@ -59,6 +65,8 @@ def sendAllMessage(message, result=False):
     for device in conectedDevices:
         sendMessage(device, message, result)
 
+def startActivity(package):
+    sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
    
 def key(event):
     value = repr(event.char)
@@ -161,42 +169,75 @@ buttons.pack()
 
 def clickUnlock():
     for device in conectedDevices :
-        isScreenOn = sendMessage(device, "shell dumpsys display | grep 'mScreenState'", True)
-        isScreenOn = str(isScreenOn).split("=")[1]
-        isScreenOn = str(isScreenOn).replace("\\n", "")
-        print(isScreenOn)
-        isOn = isScreenOn=="On"
-        print(isOn)
-    sendAllMessage("shell input keyevent {}".format(26))
+        screenState = sendMessage(device, "shell dumpsys display | grep 'mScreenState'", True)
+        screenState = str(screenState).split("=")[1]
+        screenState = str(screenState).replace("\\n", "")
+        screenState = str(screenState).replace("'", "")
+        isOff = screenState!="ON"
+        if isOff :
+            sendMessage(device, "shell input keyevent {}".format(26))
     sendAllMessage("shell input keyevent {}".format(82))
-    print("power")
 
 def clickHome():
     sendAllMessage("shell input keyevent {}".format(3))
-    print("home")
 
 def clickFile():
-    sendAllMessage("shell am start -a android.intent.action.MAIN -n com.sec.android.app.myfiles/.common.MainActivity")
-    print("file")
+    startActivity("com.sec.android.app.myfiles/.common.MainActivity")
 
 def clickSetting():
-    sendAllMessage("shell am start -a android.intent.action.MAIN -n com.android.settings/.Settings")
-    print("")
+    startActivity("com.android.settings/.Settings")
 
 def clickBack():
     sendAllMessage("shell input keyevent 4")
-    print("")
+
+def clickGalaxy():
+    startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
+
+def clickApk():
+    sendAllMessage("-d install -r adb.apk")
+
+def clickWifi():
+    startActivity("com.android.settings/.wifi.WifiSettings")
+    # sendAllMessage("shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings")
+    # sendAllMessage("shell input keyevent 20")
+    # sendAllMessage("shell input keyevent 23")
+
+def clickClose():
+    sendAllMessage("shell input keyevent 28")
+
+def clickDisplay():
+    # startActivity("skim.dev.kr.settingapplication/.DisplayActivity --user 10088")
+    startActivity("com.android.settings/com.android.settings.Settings$DisplaySettingsActivity")
+
+def clickActivity():
+    sendAllMessage("shell am stack list")
+
+# am start -S com.android.settings/.Settings\$PowerUsageSummaryActivity
+def clickNoti():
+    "am start -n 'com.android.settings/.Settings$VpnSettingsActivity'"
+    # startActivity("com.android.settings/.dos")
+
+def clickADB():
+    startActivity("skim.dev.kr.settingapplication/.MainActivity")
 
 def showShot():
     screenshot(selectedDevice)
 
+clickUnlock()
+# adb pull /data/misc/wifi/wpa_supplicant.conf
+# sendAllMessage("shell netcfg")
+# adb shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings
+# adb shell input keyevent 20 & adb shell input keyevent 23
+# os.system("adb shell am force-stop kr.co.nod.cjhtmlplayer_unlock;")
+# os.system("adb shell rm -rf %s" % path)
+# os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
+
+# sendAllMessage("uninstall com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
 # sendAllMessage("shell dumpsys display | grep 'mScreenState'", True)
 # sendAllMessage("shell input keyevent 66")
+# sendAllMessage("-d install -r 0_app-release.apk")
 
-
-# sendAllMessage("shell dumpsys activity")
-
-unlockButton = tk.Button(buttons, text="power", anchor="nw", width=80, command=clickUnlock, pady=5)
+unlockButton = tk.Button(buttons, text="unlock", width=80, command=clickUnlock, pady=5)
 unlockButton.pack()
 
 homeButton = tk.Button(buttons, width=80, text="home", command=clickHome)
@@ -211,9 +252,29 @@ settingButton.pack()
 backButton = tk.Button(buttons, width=80, text="back", command=clickBack)
 backButton.pack()
 
+glaxyButton = tk.Button(buttons, width=80, text="galaxy", command=clickGalaxy)
+glaxyButton.pack()
 
-btn4 = tk.Button(buttons, width=80, text="1")
-btn4.pack()
+apkButton = tk.Button(buttons, width=80, text="apk install", command=clickApk)
+apkButton.pack()
+
+wifiButton = tk.Button(buttons, width=80, text="wifi", command=clickWifi)
+wifiButton.pack()
+
+closeButton = tk.Button(buttons, width=80, text="close all", command=clickClose)
+closeButton.pack()
+
+displayButton = tk.Button(buttons, width=80, text="display", command=clickDisplay)
+displayButton.pack()
+
+activityButton = tk.Button(buttons, width=80, text="activity", command=clickActivity)
+activityButton.pack()
+
+notificationButton = tk.Button(buttons, widt=80, text="notifiaction", command=clickNoti)
+notificationButton.pack()
+
+adbButton = tk.Button(buttons, width=80, text="adb", command=clickADB)
+adbButton.pack()
 
 refresh_image(canvas, img, image_path, image_id)
 root.mainloop()
