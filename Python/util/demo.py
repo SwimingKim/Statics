@@ -3,10 +3,10 @@ import tkinter as tk
 import itertools
 import os
 import shutil
-import threading
 import time
 import subprocess
 import threading
+from multiprocessing import Process, Lock
 
 def sendAllSync(message, result=False):
     threads = []
@@ -76,18 +76,20 @@ h = int(int(wmSize.split("x")[1]) * scale)
 # print(wmSize)
 
 def sendAllMessage(message, result=False):
-    threads = []
-    try:
-        for device in conectedDevices:
-            t = threading.Thread(target=sendMessage, args=(device, message, result,))
-            threads.append(t)
-        print(threading.activeCount())
-        for t in threads:
-            t.start()
-            t.join()
-        print ("Exiting Main Thread")
-    except:
-        print("thread error")
+    for device in conectedDevices:
+        Process(target=sendMessage, args=(device, message, result,)).start()
+    # threads = []
+    # try:
+    #     for device in conectedDevices:
+    #         t = threading.Thread(target=sendMessage, args=(device, message, result,))
+    #         threads.append(t)
+    #     print(threading.activeCount())
+    #     for t in threads:
+    #         t.start()
+    #         t.join()
+    #     print ("Exiting Main Thread")
+    # except:
+    #     print("thread error")
     # for device in conectedDevices:
     #     sendMessage(device, message, result)
 
