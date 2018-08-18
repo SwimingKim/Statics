@@ -55,6 +55,10 @@ h = int(int(wmSize.split("x")[1]) * scale)
 # wmSize = str(w)+"x"+str(h)
 # print(wmSize)
 
+def sendAllMessage(message, result=False):
+    for device in conectedDevices:
+        sendMessage(device, message, result)
+
    
 def key(event):
     value = repr(event.char)
@@ -64,8 +68,7 @@ def key(event):
     # elif keyValue == "s":
     #     screenshot(conectedDevices[0])
     #     return
-    for device in conectedDevices:
-        sendMessage(device, "shell input keyevent {}".format(keyValue))
+    sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
 
 def callback(event):
@@ -73,8 +76,7 @@ def callback(event):
     global lastY
     lastX = event.x
     lastY = event.y
-    for device in conectedDevices:
-        sendMessage(device, "shell input tap {} {}".format(event.x * int(1/scale), event.y * int(1/scale)))
+    sendAllMessage("shell input tap {} {}".format(event.x * int(1/scale), event.y * int(1/scale)))
     print("clicked at", event.x, event.y)
 
 def swife(event):
@@ -82,8 +84,7 @@ def swife(event):
     global lastY
     if lastX == event.x and lastY == event.y:
         pass
-    for device in conectedDevices:
-        sendMessage(device, "shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
+    sendAllMessage("shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
     print("swift", event.x, event.y)
 
 def update_image_file(dst):
@@ -121,7 +122,8 @@ while not os.path.exists(image_path):  # let it run until image file exists
 
 root = tk.Tk()
 root.title("Android Devices")
-root.geometry("{}x{}".format(w+200, h))
+root.geometry("{}x{}".format(w+400, h))
+root.resizable(False, False)
 
 left = tk.Frame(root)
 left.pack(side="left")
@@ -136,8 +138,8 @@ image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
 # canvas.focus_set()
 
-right = tk.Frame(root)
-right.pack(side="right")
+center = tk.Frame(root)
+center.pack(side="left")
 
 def selectItem(event):
     widget = event.widget
@@ -147,44 +149,70 @@ def selectItem(event):
     selectedIndex = picked
     print(picked)
 
-listbox = tk.Listbox(right, width=20, height=25)
+listbox = tk.Listbox(center, width=20, height=int(h))
 listbox.bind('<<ListboxSelect>>',selectItem)
 for device in conectedDevices:
     listbox.insert(0, device)
-listbox.pack(side="top")
+listbox.pack()
 
-buttons = tk.Frame(right)
+
+buttons = tk.Frame(root, width=5, padx=5)
 buttons.pack()
 
-def clickPower():
-    for device in conectedDevices:
-        sendMessage(device, "shell input keyevent {}".format(26))
+def clickUnlock():
+    for device in conectedDevices :
+        isScreenOn = sendMessage(device, "shell dumpsys display | grep 'mScreenState'", True)
+        isScreenOn = str(isScreenOn).split("=")[1]
+        isScreenOn = str(isScreenOn).replace("\\n", "")
+        print(isScreenOn)
+        isOn = isScreenOn=="On"
+        print(isOn)
+    sendAllMessage("shell input keyevent {}".format(26))
+    sendAllMessage("shell input keyevent {}".format(82))
     print("power")
 
 def clickHome():
-    for device in conectedDevices:
-        sendMessage(device, "shell input keyevent {}".format(3))
+    sendAllMessage("shell input keyevent {}".format(3))
     print("home")
 
 def clickFile():
-    # key(3)
+    sendAllMessage("shell am start -a android.intent.action.MAIN -n com.sec.android.app.myfiles/.common.MainActivity")
     print("file")
 
+def clickSetting():
+    sendAllMessage("shell am start -a android.intent.action.MAIN -n com.android.settings/.Settings")
+    print("")
+
+def clickBack():
+    sendAllMessage("shell input keyevent 4")
+    print("")
 
 def showShot():
     screenshot(selectedDevice)
 
+# sendAllMessage("shell dumpsys display | grep 'mScreenState'", True)
+# sendAllMessage("shell input keyevent 66")
 
-powerButton = tk.Button(buttons, text="power", anchor="nw", width=150, command=clickPower, pady=5)
-powerButton.pack()
 
-homeButton = tk.Button(buttons, width=150, text="home", command=clickHome)
+# sendAllMessage("shell dumpsys activity")
+
+unlockButton = tk.Button(buttons, text="power", anchor="nw", width=80, command=clickUnlock, pady=5)
+unlockButton.pack()
+
+homeButton = tk.Button(buttons, width=80, text="home", command=clickHome)
 homeButton.pack()
 
-fileButton = tk.Button(buttons, width=150, text="file", command=clickFile)
+fileButton = tk.Button(buttons, width=80, text="file", command=clickFile)
 fileButton.pack()
 
-btn4 = tk.Button(buttons, width=150, text="1")
+settingButton = tk.Button(buttons, width=80, text="setting", command=clickSetting)
+settingButton.pack()
+
+backButton = tk.Button(buttons, width=80, text="back", command=clickBack)
+backButton.pack()
+
+
+btn4 = tk.Button(buttons, width=80, text="1")
 btn4.pack()
 
 refresh_image(canvas, img, image_path, image_id)
