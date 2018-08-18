@@ -8,20 +8,6 @@ import subprocess
 import threading
 from multiprocessing import Process, Lock
 
-def sendAllSync(message, result=False):
-    threads = []
-    try:
-        for device in conectedDevices:
-            t = threading.Thread(target=sendMessage, args=(device, message, result,))
-            threads.append(t)
-        print(threading.activeCount())
-        for t in threads:
-            t.start()
-            t.join()
-        print ("Exiting Main Thread")
-    except:
-        print("thread error")
-
 def sendMessage(deviceId, message, result=False):
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
@@ -33,6 +19,8 @@ def sendMessage(deviceId, message, result=False):
 
 def screenshot(deviceId) :
     # adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png
+    # threading.Thread(target=sendMessage, args=(deviceId, "shell screencap -p /sdcard/screen.png",)).start()
+    # threading.Thread(target=sendMessage, args=(deviceId, "pull /sdcard/screen.png",)).start()
     sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
     # sendMessage(deviceId, "shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png")
     sendMessage(deviceId, "pull /sdcard/screen.png")
@@ -107,20 +95,42 @@ def key(event):
     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
 
+
+clickTime = 0
 def callback(event):
     global lastX
     global lastY
     lastX = event.x
     lastY = event.y
     sendAllMessage("shell input tap {} {}".format(event.x * int(1/scale), event.y * int(1/scale)))
-    print("clicked at", event.x, event.y)
+
+clickTime
+def move(event):
+    global clickTime
+    clickTime += 1
+    print(clickTime)
+    if clickTime > 3 :
+        global lastX
+        global lastY
+        if lastX == event.x and lastY == event.y:
+            pass
+        dx = lastX - event.x
+        dy = lastY - event.y
+        sendAllMessage("shell input trackball roll {} {}".format(dx, dy))
+        # sendAllMessage("shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
+        print("swift", event.x, event.y)
 
 def swife(event):
+    global clickTime
     global lastX
     global lastY
     if lastX == event.x and lastY == event.y:
         pass
-    sendAllMessage("shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
+    dx = lastX - event.x
+    dy = lastY - event.y
+    sendAllMessage("shell input trackball roll {} {}".format(dx, dy))
+    # sendAllMessage("shell input swipe {} {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale), clickTime))
+    clickTime = 0
     print("swift", event.x, event.y)
 
 def update_image_file(dst):
@@ -143,7 +153,7 @@ def refresh_image(canvas, img, image_path, image_id):
     except IOError:  # missing or corrupt image file
         img = None
     # repeat every half sec
-    canvas.after(1000, refresh_image, canvas, img, image_path, image_id)  
+    canvas.after(50, refresh_image, canvas, img, image_path, image_id)  
 
 image_path = 'test.png'
 
@@ -166,8 +176,9 @@ left.pack(side="left")
 
 canvas= tk.Canvas(left, width=w, height=h)
 canvas.bind("<Key>", key)
-# screen.bind("<ButtonPress-1>", scroll_start)
 canvas.bind("<ButtonPress-1>", callback)
+# screen.bind("<ButtonPress-1>", scroll_start)
+canvas.bind("<B1-Motion>", move)
 canvas.bind("<ButtonRelease-1>", swife)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
@@ -231,7 +242,9 @@ def clickWifi():
     # sendAllMessage("shell input keyevent 23")
 
 def clickClose():
-    sendAllMessage("shell input keyevent 28")
+    sendAllMessage("shell input tap 150 1440")
+    time.sleep(2)
+    sendAllMessage("shell input tap 350 1350")
 
 def clickDisplay():
     # startActivity("skim.dev.kr.settingapplication/.DisplayActivity --user 10088")
@@ -242,11 +255,20 @@ def clickActivity():
 
 # am start -S com.android.settings/.Settings\$PowerUsageSummaryActivity
 def clickNoti():
-    "am start -n 'com.android.settings/.Settings$VpnSettingsActivity'"
+    print("hihi")
+    # "am start -n 'com.android.settings/.Settings$VpnSettingsActivity'"
     # startActivity("com.android.settings/.dos")
 
 def clickADB():
     startActivity("skim.dev.kr.settingapplication/.MainActivity")
+
+def clickUp():
+    sendAllMessage("shell input keyevent 20")
+    print("up")
+
+def clickDown():
+    sendAllMessage("shell input keyevent 19")
+    print("down")
 
 def showShot():
     screenshot(selectedDevice)
@@ -292,17 +314,18 @@ wifiButton.pack()
 closeButton = tk.Button(buttons, width=80, text="close all", command=clickClose)
 closeButton.pack()
 
-displayButton = tk.Button(buttons, width=80, text="display", command=clickDisplay)
-displayButton.pack()
-
 activityButton = tk.Button(buttons, width=80, text="activity", command=clickActivity)
 activityButton.pack()
-
-notificationButton = tk.Button(buttons, widt=80, text="notifiaction", command=clickNoti)
-notificationButton.pack()
 
 adbButton = tk.Button(buttons, width=80, text="adb", command=clickADB)
 adbButton.pack()
 
-refresh_image(canvas, img, image_path, image_id)
+upButton = tk.Button(buttons, width=80, text="Up", command=clickUp)
+upButton.pack()
+
+downButton = tk.Button(buttons, width=80, text="Down", command=clickDown)
+downButton.pack()
+
+threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
+# refresh_image(canvas, img, image_path, image_id)
 root.mainloop()
