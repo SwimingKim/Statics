@@ -6,7 +6,21 @@ import shutil
 import threading
 import time
 import subprocess
+import threading
 
+def sendAllSync(message, result=False):
+    threads = []
+    try:
+        for device in conectedDevices:
+            t = threading.Thread(target=sendMessage, args=(device, message, result,))
+            threads.append(t)
+        print(threading.activeCount())
+        for t in threads:
+            t.start()
+            t.join()
+        print ("Exiting Main Thread")
+    except:
+        print("thread error")
 
 def sendMessage(deviceId, message, result=False):
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
@@ -62,8 +76,20 @@ h = int(int(wmSize.split("x")[1]) * scale)
 # print(wmSize)
 
 def sendAllMessage(message, result=False):
-    for device in conectedDevices:
-        sendMessage(device, message, result)
+    threads = []
+    try:
+        for device in conectedDevices:
+            t = threading.Thread(target=sendMessage, args=(device, message, result,))
+            threads.append(t)
+        print(threading.activeCount())
+        for t in threads:
+            t.start()
+            t.join()
+        print ("Exiting Main Thread")
+    except:
+        print("thread error")
+    # for device in conectedDevices:
+    #     sendMessage(device, message, result)
 
 def startActivity(package):
     sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
