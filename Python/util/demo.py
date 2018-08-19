@@ -27,7 +27,6 @@ def findString(value) :
     else :
         return "| grep '{}'".format(value)
 
-
 # bash function
 def sendMessage(deviceId, message, result=False):
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
@@ -38,15 +37,27 @@ def sendMessage(deviceId, message, result=False):
         os.system(cmd)
         return "no text"
 
+# adb function
+conectedDevices = list()
 def screenshot(deviceId) :
     sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
     sendMessage(deviceId, "pull /sdcard/screen.png")
 
-scale = 1
+def sendAllMessage(message, result=False):
+    for device in conectedDevices:
+        Process(target=sendMessage, args=(device, message, result,)).start()
+
+def startActivity(package):
+    sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
+
+
+# screen size
+scale = 0.35
+def scalePostion(value) :
+    return value * (1/scale)
 
 cmd = '{} devices'.format(adbPath())
 devices = subprocess.check_output(cmd, shell=True)
-conectedDevices = list()
 
 devicelist = str(devices).split('\\n')
 del devicelist[0]
@@ -64,24 +75,14 @@ wmSize = wmSize.replace("'", "")
 wmSize = wmSize.replace("\\r", "")
 w = int(int(wmSize.split("x")[0]) * scale)
 h = int(int(wmSize.split("x")[1]) * scale)
-# wmSize = str(w)+"x"+str(h)
-# print(wmSize)
 
-def sendAllMessage(message, result=False):
-    for device in conectedDevices:
-        Process(target=sendMessage, args=(device, message, result,)).start()
-
-def startActivity(package):
-    sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
-   
-def key(event):
+# canvas event
+def pressKey(event):
     value = repr(event.char)
     keyValue = str(value).replace("'", "")
-    sendAllMessage("shell input keyevent {}".format(keyValue))
-    print("pressed", keyValue)
-
-def scalePostion(value) :
-    return value * (1/scale)
+    print(keyValue)
+    # sendAllMessage("shell input keyevent {}".format(keyValue))
+    # print("pressed", keyValue)
 
 # mouse event
 clickTime = 0
@@ -116,12 +117,12 @@ def mouseUp(event):
         print("swift", event.x, event.y)
     clickTime = 0
 
+# image reload
 def update_image_file(dst):
     TEST_IMAGES = 'screen.png', 'screen.png'
     for src in itertools.cycle(TEST_IMAGES):
         shutil.copy(src, dst)
         time.sleep(.5)  # pause between updates
-#------------------------------------------------------------------------------
 
 def refresh_image(canvas, img, image_path, image_id):
     showShot()
@@ -136,35 +137,27 @@ def refresh_image(canvas, img, image_path, image_id):
 
 image_path = 'test.png'
 
-#------------------------------------------------------------------------------
-# More code to simulate background process periodically updating the image file.
 th = threading.Thread(target=update_image_file, args=(image_path,))
 th.daemon = True  # terminates whenever main thread does
 th.start()
 while not os.path.exists(image_path):  # let it run until image file exists
     time.sleep(.1)
-#------------------------------------------------------------------------------
 
+# tkinter init
 root = tk.Tk()
 root.title("Android Devices")
 root.geometry("{}x{}".format(w+400, h))
 root.resizable(False, False)
 
-left = tk.Frame(root)
-left.pack(side="left")
-
-canvas= tk.Canvas(left, width=w, height=h)
-canvas.bind("<Key>", key)
+canvas= tk.Canvas(root)
+canvas.bind("<Key>", pressKey)
 canvas.bind("<ButtonPress-1>", mouseDown)
 canvas.bind("<B1-Motion>", mouseMove)
 canvas.bind("<ButtonRelease-1>", mouseUp)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
-# canvas.focus_set()
-
-center = tk.Frame(root)
-center.pack(side="left")
+canvas.focus_set()
 
 def selectItem(event):
     widget = event.widget
@@ -174,15 +167,16 @@ def selectItem(event):
     selectedIndex = picked
     print(picked)
 
-listbox = tk.Listbox(center, width=20, height=int(h))
+# device list
+listbox = tk.Listbox(canvas, width=20, height=int(h))
 listbox.bind('<<ListboxSelect>>',selectItem)
 for device in conectedDevices:
     listbox.insert(0, device)
-listbox.pack()
+listbox.pack(side="left")
 
-
-buttons = tk.Frame(root, width=5, padx=5)
-buttons.pack()
+# button click event
+buttons = tk.Frame(canvas, width=5, padx=5)
+buttons.pack(side="right")
 
 def clickUnlock():
     for device in conectedDevices :
@@ -237,9 +231,6 @@ def clickClose():
     # time.sleep(2)
     # sendAllMessage("shell input tap 350 1350")
 
-def clickDisplay():
-    startActivity("com.samsung.android.app.spage/com.samsung.android.app.spage.main.MainActivity")
-
 def clickActivity():
     # adb dumpsys activity
     sendAllMessage("shell am stack list")
@@ -249,32 +240,18 @@ def clickADB():
 
 def clickUp():
     sendAllMessage("shell input keyevent 20")
-    print("up")
 
 def clickDown():
     sendAllMessage("shell input keyevent 19")
-    print("down")
-
-def clickEdge():
-    startActivity("com.samsung.android.app.cocktailbarservice/com.samsung.android.app.cocktailbarservice.settings.EdgePanels")
-    print("edge")
 
 def showShot():
     screenshot(selectedDevice)
 
 clickUnlock()
-# adb pull /data/misc/wifi/wpa_supplicant.conf
 # sendAllMessage("shell netcfg")
-# adb shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings
-# adb shell input keyevent 20 & adb shell input keyevent 23
 # os.system("adb shell am force-stop kr.co.nod.cjhtmlplayer_unlock;")
 # os.system("adb shell rm -rf %s" % path)
 # os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
-
-# sendAllMessage("uninstall com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
-# sendAllMessage("shell dumpsys display | grep 'mScreenState'", True)
-# sendAllMessage("shell input keyevent 66")
-# sendAllMessage("-d install -r 0_app-release.apk")
 
 unlockButton = tk.Button(buttons, text="unlock", width=80, command=clickUnlock, pady=5)
 unlockButton.pack()
