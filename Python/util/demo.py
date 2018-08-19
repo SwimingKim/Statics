@@ -108,7 +108,7 @@ def mouseMove(event):
     clickTime += 1
     global lastX
     global lastY
-    sendAllMessage("shell input touchscreen swipe {} {} {} {} 500".format(scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y)))
+    sendAllMessage("shell input touchscreen swipe {} {} {} {} 100".format(scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y)))
     print("move", scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y))
     if clickTime / clickSplit == 0 :
         lastX = event.x
@@ -122,12 +122,6 @@ def mouseUp(event):
     clickTime = 0
 
 # image reload
-def update_image_file(dst):
-    TEST_IMAGES = 'screen.png', 'screen.png'
-    for src in itertools.cycle(TEST_IMAGES):
-        shutil.copy(src, dst)
-        time.sleep(.5)  # pause between updates
-
 def refresh_image(canvas, img, image_path, image_id):
     showShot()
     try:
@@ -138,14 +132,6 @@ def refresh_image(canvas, img, image_path, image_id):
         img = None
     # repeat every half sec
     canvas.after(50, refresh_image, canvas, img, image_path, image_id)  
-
-image_path = 'test.png'
-
-th = threading.Thread(target=update_image_file, args=(image_path,))
-th.daemon = True  # terminates whenever main thread does
-th.start()
-while not os.path.exists(image_path):  # let it run until image file exists
-    time.sleep(.1)
 
 # tkinter init
 root = tk.Tk()
@@ -282,6 +268,8 @@ addButton("adb", clickADB)
 addButton("Up", clickUp)
 addButton("Down", clickDown)
 
+image_path = 'screen.png'
 threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
-# refresh_image(canvas, img, image_path, image_id)
+# Process(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
+
 root.mainloop()
