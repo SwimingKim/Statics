@@ -1,5 +1,6 @@
 from PIL import Image, ImageTk
 import tkinter as tk
+from tkinter import font
 import itertools
 import os
 import shutil
@@ -147,18 +148,21 @@ while not os.path.exists(image_path):  # let it run until image file exists
 # tkinter init
 root = tk.Tk()
 root.title("Android Devices")
-root.geometry("{}x{}".format(w+400, h))
-root.resizable(False, False)
+root.geometry("{}x{}".format(w+600, h))
+root.resizable(True, True)
+root.bind("<Key>", pressKey)
 
-canvas= tk.Canvas(root)
-canvas.bind("<Key>", pressKey)
+left = tk.Frame(root)
+left.pack(side="left")
+
+canvas= tk.Canvas(left, width=w, height=h)
 canvas.bind("<ButtonPress-1>", mouseDown)
 canvas.bind("<B1-Motion>", mouseMove)
 canvas.bind("<ButtonRelease-1>", mouseUp)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
-canvas.focus_set()
+# canvas.focus_set()
 
 def selectItem(event):
     widget = event.widget
@@ -168,16 +172,21 @@ def selectItem(event):
     selectedIndex = picked
     print(picked)
 
+center = tk.Frame(root)
+center.pack(side="left")
+
 # device list
-listbox = tk.Listbox(canvas, width=20, height=int(h))
+menuFont = font.Font(size=26)
+# self.lb = Listbox(f,selectmode=MULTIPLE, bd=1, height=10, font=menuFont)
+listbox = tk.Listbox(center, width=20, height=int(h), font=menuFont)
 listbox.bind('<<ListboxSelect>>',selectItem)
 for device in conectedDevices:
     listbox.insert(0, device)
-listbox.pack(side="left")
+listbox.pack()
 
 # button click event
-buttons = tk.Frame(canvas, width=5, padx=5)
-buttons.pack(side="right")
+buttons = tk.Frame(root, width=5, padx=5)
+buttons.pack()
 
 def clickUnlock():
     for device in conectedDevices :
@@ -254,44 +263,22 @@ clickUnlock()
 # os.system("adb shell rm -rf %s" % path)
 # os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
 
-unlockButton = tk.Button(buttons, text="unlock", width=80, command=clickUnlock, pady=5)
-unlockButton.pack()
+def addButton(buttonName, onClick) :
+    button = tk.Button(buttons, height=1, width=80, text=buttonName, command=onClick, font=menuFont)
+    button.pack()
 
-homeButton = tk.Button(buttons, width=80, text="home", command=clickHome)
-homeButton.pack()
-
-fileButton = tk.Button(buttons, width=80, text="file", command=clickFile)
-fileButton.pack()
-
-settingButton = tk.Button(buttons, width=80, text="setting", command=clickSetting)
-settingButton.pack()
-
-backButton = tk.Button(buttons, width=80, text="back", command=clickBack)
-backButton.pack()
-
-glaxyButton = tk.Button(buttons, width=80, text="galaxy", command=clickGalaxy)
-glaxyButton.pack()
-
-apkButton = tk.Button(buttons, width=80, text="apk install", command=clickApk)
-apkButton.pack()
-
-wifiButton = tk.Button(buttons, width=80, text="wifi", command=clickWifi)
-wifiButton.pack()
-
-closeButton = tk.Button(buttons, width=80, text="close all", command=clickClose)
-closeButton.pack()
-
-activityButton = tk.Button(buttons, width=80, text="activity", command=clickActivity)
-activityButton.pack()
-
-adbButton = tk.Button(buttons, width=80, text="adb", command=clickADB)
-adbButton.pack()
-
-upButton = tk.Button(buttons, width=80, text="Up", command=clickUp)
-upButton.pack()
-
-downButton = tk.Button(buttons, width=80, text="Down", command=clickDown)
-downButton.pack()
+addButton("unlock", clickUnlock)
+addButton("home", clickHome)
+addButton("file", clickFile)
+addButton("settings", clickSetting)
+addButton("galaxy", clickGalaxy)
+addButton("apk install", clickApk)
+addButton("wifi", clickWifi)
+addButton("close all", clickClose)
+addButton("activity", clickActivity)
+addButton("adb", clickADB)
+addButton("Up", clickUp)
+addButton("Down", clickDown)
 
 threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
 # refresh_image(canvas, img, image_path, image_id)
