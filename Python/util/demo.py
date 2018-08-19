@@ -62,6 +62,7 @@ devices = subprocess.check_output(cmd, shell=True)
 devicelist = str(devices).split('\\n')
 del devicelist[0]
 for device in devicelist:
+    device = device.replace("\\r", "")
     device = device.replace(" ", "")
     device = device.replace("'", "")
     device = device.replace("\\tdevice", "")
