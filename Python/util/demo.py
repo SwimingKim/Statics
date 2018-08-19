@@ -52,7 +52,7 @@ def startActivity(package):
 
 
 # screen size
-scale = 0.35
+scale = 0.5
 def scalePostion(value) :
     return value * (1/scale)
 
