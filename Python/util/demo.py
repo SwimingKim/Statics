@@ -53,9 +53,10 @@ def startActivity(package):
 
 
 # screen size
-scale = 0.5
+scale = 0.4
 def scalePostion(value) :
-    return value * (1/scale)
+    # return int(value * scale)
+    return int(value * 1/scale)
 
 cmd = '{} devices'.format(adbPath())
 devices = subprocess.check_output(cmd, shell=True)
@@ -75,8 +76,10 @@ wmSize = sendMessage(conectedDevices[0], "shell wm size", True)
 wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
 wmSize = wmSize.replace("'", "")
 wmSize = wmSize.replace("\\r", "")
-w = int(int(wmSize.split("x")[0]) * scale)
-h = int(int(wmSize.split("x")[1]) * scale)
+rowWidth = int(wmSize.split("x")[0])
+rowHeight = int(wmSize.split("x")[1])
+w = int(rowWidth * scale)
+h = int(rowHeight * scale)
 
 # canvas event
 def pressKey(event):
@@ -88,35 +91,34 @@ def pressKey(event):
 
 # mouse event
 clickTime = 0
-lastX = 0
-lastY = 0
+clickSplit = 2
+lastX = None
+lastY = None
 
 def mouseDown(event):
     global clickTime
     clickTime = 0
     global lastX
     global lastY
-    lastX = scalePostion(event.x)
-    lastY = scalePostion(event.y)
+    lastX = event.x
+    lastY = event.y
 
 def mouseMove(event):
     global clickTime
     clickTime += 1
-    print(clickTime)
     global lastX
     global lastY
-    print(lastX, lastY)
-    print(event.x, event.y)
-    sendAllMessage("shell input touchscreen swipe {} {} {} {} 100".format(scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y)))
-    lastX = scalePostion(event.x)
-    lastY = scalePostion(event.y)
-    print("move", lastX, lastY)
+    sendAllMessage("shell input touchscreen swipe {} {} {} {} 500".format(scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y)))
+    print("move", scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y))
+    if clickTime / clickSplit == 0 :
+        lastX = event.x
+        lastY = event.y
 
 def mouseUp(event):
     global clickTime
-    if clickTime < 5:
+    if clickTime < clickSplit:
         sendAllMessage("shell input tap {} {}".format(scalePostion(event.x), scalePostion(event.y)))
-        print("swift", event.x, event.y)
+        print("up", scalePostion(event.x), scalePostion(event.y))
     clickTime = 0
 
 # image reload
