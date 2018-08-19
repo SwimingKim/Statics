@@ -32,14 +32,21 @@ def findString(value) :
 def sendMessage(deviceId, message, result=False):
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
-        text = subprocess.check_output(cmd , shell=True)
-        return text
+        try :
+            text = subprocess.check_output(cmd , shell=True)
+            return text
+        except :
+            pass
     else :
-        os.system(cmd)
-        return "no text"
+        try :
+            os.system(cmd)
+            return "no text"
+        except :
+            pass
 
 # adb function
-conectedDevices = list()
+conectedDevices = set()
+selectedDevice = None
 def screenshot(deviceId) :
     sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
     sendMessage(deviceId, "pull /sdcard/screen.png")
@@ -58,21 +65,30 @@ def scalePostion(value) :
     # return int(value * scale)
     return int(value * 1/scale)
 
-cmd = '{} devices'.format(adbPath())
-devices = subprocess.check_output(cmd, shell=True)
+def checkDevices():
+    global conectedDevices
+    global selectedDevice
+    # global listbox
+    # listbox.Items.Clear()
+    conectedDevices = set()
+    cmd = '{} devices'.format(adbPath())
+    devices = subprocess.check_output(cmd, shell=True)
+    devicelist = str(devices).split('\\n')
+    del devicelist[0]
+    for device in devicelist:
+        device = device.replace("\\r", "")
+        device = device.replace(" ", "")
+        device = device.replace("'", "")
+        device = device.replace("\\tdevice", "")
+        if len(device) >= 16:
+            conectedDevices.add(device)
+    selectedDevice = list(conectedDevices)[0]
+    print(conectedDevices)
+    threading.Timer(3, checkDevices).start()
 
-devicelist = str(devices).split('\\n')
-del devicelist[0]
-for device in devicelist:
-    device = device.replace("\\r", "")
-    device = device.replace(" ", "")
-    device = device.replace("'", "")
-    device = device.replace("\\tdevice", "")
-    if len(device) >= 16:
-        conectedDevices.append(device)
-selectedDevice = conectedDevices[0]
+checkDevices()
 
-wmSize = sendMessage(conectedDevices[0], "shell wm size", True)
+wmSize = sendMessage(selectedDevice, "shell wm size", True)
 wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
 wmSize = wmSize.replace("'", "")
 wmSize = wmSize.replace("\\r", "")
@@ -85,9 +101,9 @@ h = int(rowHeight * scale)
 def pressKey(event):
     value = repr(event.char)
     keyValue = str(value).replace("'", "")
-    print(keyValue)
+    # if keyValue == 
     # sendAllMessage("shell input keyevent {}".format(keyValue))
-    # print("pressed", keyValue)
+    print("pressed", keyValue)
 
 # mouse event
 clickTime = 0
@@ -210,16 +226,16 @@ def clickWifi():
     startActivity("com.android.settings/.wifi.WifiSettings")
 
 def closeActivity(device):
-    startActivity("com.android.systemui/com.android.systemui.recents.RecentsActivity")
-    # value = sendMessage(device, "shell am stack list", True)
-    # packages = str(value).split(" ")
-    # for package in packages :
-    #     if not(package.__contains__("/")):
-    #         continue
-    #     package = package.split("/")[0]
-    #     if package.__contains__("{") :
-    #         package = package.split("{")[1]
-    #     sendMessage(device, "shell am force-stop {};".format(package))
+    # startActivity("com.android.systemui/com.android.systemui.recents.RecentsActivity")
+    value = sendMessage(device, "shell am stack list", True)
+    packages = str(value).split(" ")
+    for package in packages :
+        if not(package.__contains__("/")):
+            continue
+        package = package.split("/")[0]
+        if package.__contains__("{") :
+            package = package.split("{")[1]
+        sendMessage(device, "shell am force-stop {};".format(package))
     # clickHome()
 
 def clickClose():
