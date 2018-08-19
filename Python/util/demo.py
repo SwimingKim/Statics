@@ -7,7 +7,28 @@ import time
 import subprocess
 import threading
 from multiprocessing import Process, Lock
+import platform
+from pathlib import Path
 
+# OS function
+def isWindowOS() :
+    return platform.system() == "Windows"
+
+def adbPath() :
+    home = str(Path.home())
+    if isWindowOS() :
+        return home+"\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
+    else :
+        return home+"/Library/Android/sdk/platform-tools/adb"
+
+def findString(value) :
+    if isWindowOS() :
+        return "| findstr {}".format(value)
+    else :
+        return "| grep '{}'".format(value)
+
+
+# bash function
 def sendMessage(deviceId, message, result=False):
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
@@ -18,27 +39,10 @@ def sendMessage(deviceId, message, result=False):
         return "no text"
 
 def screenshot(deviceId) :
-    # adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png
-    # threading.Thread(target=sendMessage, args=(deviceId, "shell screencap -p /sdcard/screen.png",)).start()
-    # threading.Thread(target=sendMessage, args=(deviceId, "pull /sdcard/screen.png",)).start()
     sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
-    # sendMessage(deviceId, "shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png")
     sendMessage(deviceId, "pull /sdcard/screen.png")
-    # sendMessage(deviceId, "pull /mnt/sdcard/screen.png")
 
-def addRootPath() :
-    # return "C:\\Users\\imfine\\AppData\\Local\\Android\\Sdk\\platform-tools\\"
-    return "/Users/suyoung/Library/Android/sdk/platform-tools/"
-
-def adbPath() :
-    return addRootPath()+"adb"
-
-def sqlitePath() :
-    return addRootPath()+"sqlite3"
-
-lastX = 0
-lastY = 0
-scale = 0.25
+scale = 1
 
 cmd = '{} devices'.format(adbPath())
 devices = subprocess.check_output(cmd, shell=True)
@@ -76,43 +80,41 @@ def key(event):
     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
 
+def scalePostion(value) :
+    return value * (1/scale)
 
+# mouse event
 clickTime = 0
-def callback(event):
+lastX = 0
+lastY = 0
+
+def mouseDown(event):
+    global clickTime
+    clickTime = 0
     global lastX
     global lastY
-    lastX = event.x
-    lastY = event.y
-    sendAllMessage("shell input tap {} {}".format(event.x * int(1/scale), event.y * int(1/scale)))
+    lastX = scalePostion(event.x)
+    lastY = scalePostion(event.y)
 
-clickTime
-def move(event):
+def mouseMove(event):
     global clickTime
     clickTime += 1
     print(clickTime)
-    if clickTime > 3 :
-        global lastX
-        global lastY
-        if lastX == event.x and lastY == event.y:
-            pass
-        dx = lastX - event.x
-        dy = lastY - event.y
-        sendAllMessage("shell input trackball roll {} {}".format(dx, dy))
-        # sendAllMessage("shell input swipe {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale)))
-        print("swift", event.x, event.y)
-
-def swife(event):
-    global clickTime
     global lastX
     global lastY
-    if lastX == event.x and lastY == event.y:
-        pass
-    dx = lastX - event.x
-    dy = lastY - event.y
-    sendAllMessage("shell input trackball roll {} {}".format(dx, dy))
-    # sendAllMessage("shell input swipe {} {} {} {} {}".format(lastX * int(1/scale), lastY * int(1/scale), event.x * int(1/scale), event.y * int(1/scale), clickTime))
+    print(lastX, lastY)
+    print(event.x, event.y)
+    sendAllMessage("shell input touchscreen swipe {} {} {} {} 100".format(scalePostion(lastX), scalePostion(lastY), scalePostion(event.x), scalePostion(event.y)))
+    lastX = scalePostion(event.x)
+    lastY = scalePostion(event.y)
+    print("move", lastX, lastY)
+
+def mouseUp(event):
+    global clickTime
+    if clickTime < 5:
+        sendAllMessage("shell input tap {} {}".format(scalePostion(event.x), scalePostion(event.y)))
+        print("swift", event.x, event.y)
     clickTime = 0
-    print("swift", event.x, event.y)
 
 def update_image_file(dst):
     TEST_IMAGES = 'screen.png', 'screen.png'
@@ -153,10 +155,9 @@ left.pack(side="left")
 
 canvas= tk.Canvas(left, width=w, height=h)
 canvas.bind("<Key>", key)
-canvas.bind("<ButtonPress-1>", callback)
-# screen.bind("<ButtonPress-1>", scroll_start)
-canvas.bind("<B1-Motion>", move)
-canvas.bind("<ButtonRelease-1>", swife)
+canvas.bind("<ButtonPress-1>", mouseDown)
+canvas.bind("<B1-Motion>", mouseMove)
+canvas.bind("<ButtonRelease-1>", mouseUp)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
@@ -185,7 +186,8 @@ buttons.pack()
 
 def clickUnlock():
     for device in conectedDevices :
-        screenState = sendMessage(device, "shell dumpsys display | grep 'mScreenState'", True)
+        cmd = "shell dumpsys display {}".format(findString("mScreenState"))
+        screenState = sendMessage(device, cmd, True)
         screenState = str(screenState).split("=")[1]
         screenState = str(screenState).replace("\\n", "")
         screenState = str(screenState).replace("'", "")
