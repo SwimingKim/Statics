@@ -66,20 +66,6 @@ h = int(int(wmSize.split("x")[1]) * scale)
 def sendAllMessage(message, result=False):
     for device in conectedDevices:
         Process(target=sendMessage, args=(device, message, result,)).start()
-    # threads = []
-    # try:
-    #     for device in conectedDevices:
-    #         t = threading.Thread(target=sendMessage, args=(device, message, result,))
-    #         threads.append(t)
-    #     print(threading.activeCount())
-    #     for t in threads:
-    #         t.start()
-    #         t.join()
-    #     print ("Exiting Main Thread")
-    # except:
-    #     print("thread error")
-    # for device in conectedDevices:
-    #     sendMessage(device, message, result)
 
 def startActivity(package):
     sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
@@ -87,11 +73,6 @@ def startActivity(package):
 def key(event):
     value = repr(event.char)
     keyValue = str(value).replace("'", "")
-    # if keyValue == str(1):
-    #     keyValue = 26
-    # elif keyValue == "s":
-    #     screenshot(conectedDevices[0])
-    #     return
     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
 
@@ -134,11 +115,7 @@ def swife(event):
     print("swift", event.x, event.y)
 
 def update_image_file(dst):
-    """ Overwrite (or create) destination file by copying successive image 
-        files to the destination path. Runs indefinitely. 
-    """
     TEST_IMAGES = 'screen.png', 'screen.png'
-
     for src in itertools.cycle(TEST_IMAGES):
         shutil.copy(src, dst)
         time.sleep(.5)  # pause between updates
@@ -233,31 +210,37 @@ def clickGalaxy():
     startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
 
 def clickApk():
-    sendAllMessage("-d install -r adb.apk")
+    sendAllMessage("-d install -r 0_app-release.apk")
 
 def clickWifi():
     startActivity("com.android.settings/.wifi.WifiSettings")
-    # sendAllMessage("shell am start -a android.intent.action.MAIN -n com.android.settings/.wifi.WifiSettings")
-    # sendAllMessage("shell input keyevent 20")
-    # sendAllMessage("shell input keyevent 23")
+
+def closeActivity(device):
+    startActivity("com.android.systemui/com.android.systemui.recents.RecentsActivity")
+    # value = sendMessage(device, "shell am stack list", True)
+    # packages = str(value).split(" ")
+    # for package in packages :
+    #     if not(package.__contains__("/")):
+    #         continue
+    #     package = package.split("/")[0]
+    #     if package.__contains__("{") :
+    #         package = package.split("{")[1]
+    #     sendMessage(device, "shell am force-stop {};".format(package))
+    # clickHome()
 
 def clickClose():
-    sendAllMessage("shell input tap 150 1440")
-    time.sleep(2)
-    sendAllMessage("shell input tap 350 1350")
+    for device in conectedDevices:
+        Process(target=closeActivity, args=(device,)).start()
+    # sendAllMessage("shell input tap 150 1440")
+    # time.sleep(2)
+    # sendAllMessage("shell input tap 350 1350")
 
 def clickDisplay():
-    # startActivity("skim.dev.kr.settingapplication/.DisplayActivity --user 10088")
-    startActivity("com.android.settings/com.android.settings.Settings$DisplaySettingsActivity")
+    startActivity("com.samsung.android.app.spage/com.samsung.android.app.spage.main.MainActivity")
 
 def clickActivity():
+    # adb dumpsys activity
     sendAllMessage("shell am stack list")
-
-# am start -S com.android.settings/.Settings\$PowerUsageSummaryActivity
-def clickNoti():
-    print("hihi")
-    # "am start -n 'com.android.settings/.Settings$VpnSettingsActivity'"
-    # startActivity("com.android.settings/.dos")
 
 def clickADB():
     startActivity("skim.dev.kr.settingapplication/.MainActivity")
@@ -269,6 +252,10 @@ def clickUp():
 def clickDown():
     sendAllMessage("shell input keyevent 19")
     print("down")
+
+def clickEdge():
+    startActivity("com.samsung.android.app.cocktailbarservice/com.samsung.android.app.cocktailbarservice.settings.EdgePanels")
+    print("edge")
 
 def showShot():
     screenshot(selectedDevice)
