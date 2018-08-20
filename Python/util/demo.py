@@ -343,6 +343,7 @@ addButton("activity", clickActivity)
 addButton("adb", clickADB)
 addButton("Up", clickUp)
 addButton("Down", clickDown)
+# addButton("Shell", clickSH)
 
 image_path = 'screen.png'
 threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
