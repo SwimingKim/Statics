@@ -36,14 +36,12 @@ def sendMessage(deviceId, message, result=False):
             text = subprocess.check_output(cmd , shell=True)
             return text
         except :
-            print("??")
-            pass
+            return "none"
     else :
         try :
             os.system(cmd)
             return "no text"
         except :
-            print("##")
             pass
 
 # adb function
@@ -68,7 +66,6 @@ def scalePostion(value) :
     return int(value * 1/scale)
 
 # device list
-isChangeList = 0
 def checkDiff(set1, set2) :
     return [x for x in set1 if x not in set2]
 
@@ -91,8 +88,6 @@ def checkDevices():
     if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
         conectedDevices = renewDevices
         selectedDevice = list(conectedDevices)[0]
-        isChangeList = 1
-        print(isChangeList, "!!")
         if __name__ == "__main" :
             updatelist()
     t = threading.Timer(3, checkDevices)
@@ -111,37 +106,28 @@ w = int(rowWidth * scale)
 h = int(rowHeight * scale)
 
 # canvas event
+def pressScrollUpKey():
+    sendAllMessage("shell input touchscreen swipe 300 300 500 1000 100")
+
+def pressScrollDownKey():
+    sendAllMessage("shell input touchscreen swipe 300 1000 500 300 100")
+
 def pressKey(event):
     value = repr(event.char)
     keyValue = str(value).replace("'", "")
     if keyValue == "u" :
-        sendAllMessage("shell input touchscreen swipe 300 300 500 1000 100")
+        pressScrollUpKey()
     elif keyValue == "d" :
-        sendAllMessage("shell input touchscreen swipe 300 1000 500 300 100")
-    else :
-        sendAllMessage("shell input keyevent {}".format(keyValue))
+        pressScrollDownKey()
+    elif keyValue == "h" :
+        sendAllMessage("shell input keyevent {}".format(3))
+    elif keyValue == "f" :
+        startActivity("com.sec.android.app.myfiles/.common.MainActivity")
+    elif keyValue == "s" :
+        startActivity("com.android.settings/.Settings")
+    # else :
+    #     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
-
-def pressScrollUpKey(event):
-    sendAllMessage("input touchscreen swipe 300 300 500 1000 100")
-    print("up")
-
-def pressScrollDownKey(event):
-    print("down")
-    sendAllMessage("input touchscreen swipe 300 1000 500 300 100")
-
-
-    # value = repr(event.char)
-    # keyValue = str(value).replace("'", "")
-    # if str(keyValue) == "\\x04" :
-    #     print("up")
-    #     sendAllMessage("input touchscreen swipe 300 300 500 1000 100")
-    # elif str(keyValue) == "\\x15" :
-    #     print("down")
-    #     sendAllMessage("input touchscreen swipe 300 1000 500 300 100")
-    # if keyValue == 
-    # sendAllMessage("shell input keyevent {}".format(keyValue))
-    # print("pressed", keyValue)
 
 # mouse event
 clickTime = 0
@@ -184,7 +170,6 @@ def refresh_image(canvas, img, image_path, image_id):
         canvas.itemconfigure(image_id, image=img)
     except IOError:  # missing or corrupt image file
         img = None
-    # repeat every half sec
     canvas.after(50, refresh_image, canvas, img, image_path, image_id)  
 
 # tkinter init
@@ -206,7 +191,6 @@ canvas.bind("<ButtonRelease-1>", mouseUp)
 img = None  # initially only need a canvas image place-holder
 image_id = canvas.create_image(0, 0, image=img, anchor='nw')
 canvas.pack()
-# canvas.focus_set()
 
 def selectItem(event):
     widget = event.widget
@@ -221,7 +205,6 @@ center.pack(side="left")
 
 # device list
 menuFont = font.Font(size=26)
-# self.lb = Listbox(f,selectmode=MULTIPLE, bd=1, height=10, font=menuFont)
 listbox = tk.Listbox(center, width=20, height=int(h), font=menuFont)
 listbox.bind('<<ListboxSelect>>',selectItem)
 for device in conectedDevices:
@@ -275,19 +258,15 @@ def clickBack():
 
 def clickGalaxy():
     if __name__ == "__main__" :
+        for device in conectedDevices :
+            result = sendMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
+            print(result)
+            if result == "none" :
+                sendMessage(device, "-d install 0_app-release.apk")
         startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
-
-def clickApk():
-    if __name__ == "__main__" :
-        sendAllMessage("-d install -r 0_app-release.apk")
-
-def clickWifi():
-    if __name__ == "__main__" :
-        startActivity("com.android.settings/.wifi.WifiSettings")
 
 def closeActivity(device):
     if __name__ == "__main__" :
-        # startActivity("com.android.systemui/com.android.systemui.recents.RecentsActivity")
         value = sendMessage(device, "shell am stack list", True)
         packages = str(value).split(" ")
         for package in packages :
@@ -297,7 +276,6 @@ def closeActivity(device):
             if package.__contains__("{") :
                 package = package.split("{")[1]
             sendMessage(device, "shell am force-stop {};".format(package))
-        # clickHome()
 
 def clickClose():
     if __name__ == "__main__" :
@@ -309,20 +287,15 @@ def clickClose():
 
 def clickActivity():
     if __name__ == "__main__" :
-        # adb dumpsys activity
         sendAllMessage("shell am stack list")
 
-def clickADB():
+def clickCustom():
     if __name__ == "__main__" :
+        for device in conectedDevices :
+            result = sendMessage(device, "shell pm list package -f {}".format(findString("skim.dev.kr.settingapplication")), True)
+            if result == "none" :
+                sendMessage(device, "-d install adb.apk")
         startActivity("skim.dev.kr.settingapplication/.MainActivity")
-
-def clickUp():
-    if __name__ == "__main__" :
-        sendAllMessage("shell input keyevent 20")
-
-def clickDown():
-    if __name__ == "__main__" :
-        sendAllMessage("shell input keyevent 19")
 
 def showShot():
     screenshot(selectedDevice)
@@ -338,17 +311,13 @@ def addButton(buttonName, onClick) :
     button.pack()
 
 addButton("unlock", clickUnlock)
+addButton("custom", clickCustom)
+addButton("galaxy", clickGalaxy)
+addButton("close all", clickClose)
 addButton("home", clickHome)
 addButton("file", clickFile)
 addButton("settings", clickSetting)
-addButton("galaxy", clickGalaxy)
-addButton("apk install", clickApk)
-addButton("wifi", clickWifi)
-addButton("close all", clickClose)
 addButton("activity", clickActivity)
-addButton("adb", clickADB)
-addButton("Up", clickUp)
-addButton("Down", clickDown)
 # addButton("Shell", clickSH)
 
 if __name__ == "__main__" :
