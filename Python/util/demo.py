@@ -36,12 +36,14 @@ def sendMessage(deviceId, message, result=False):
             text = subprocess.check_output(cmd , shell=True)
             return text
         except :
+            print("??")
             pass
     else :
         try :
             os.system(cmd)
             return "no text"
         except :
+            print("##")
             pass
 
 # adb function
@@ -65,12 +67,16 @@ def scalePostion(value) :
     # return int(value * scale)
     return int(value * 1/scale)
 
+# device list
+isChangeList = 0
+def checkDiff(set1, set2) :
+    return [x for x in set1 if x not in set2]
+
 def checkDevices():
+    global listbox
     global conectedDevices
     global selectedDevice
-    # global listbox
-    # listbox.Items.Clear()
-    conectedDevices = set()
+    renewDevices = set()
     cmd = '{} devices'.format(adbPath())
     devices = subprocess.check_output(cmd, shell=True)
     devicelist = str(devices).split('\\n')
@@ -81,10 +87,15 @@ def checkDevices():
         device = device.replace("'", "")
         device = device.replace("\\tdevice", "")
         if len(device) >= 16:
-            conectedDevices.add(device)
-    selectedDevice = list(conectedDevices)[0]
-    print(conectedDevices)
-    threading.Timer(3, checkDevices).start()
+            renewDevices.add(device)
+    if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
+        conectedDevices = renewDevices
+        selectedDevice = list(conectedDevices)[0]
+        isChangeList = 1
+        print(isChangeList, "!!")
+    t = threading.Timer(3, checkDevices)
+    t.daemon = True
+    t.start()
 
 checkDevices()
 
@@ -188,6 +199,28 @@ for device in conectedDevices:
     listbox.insert(0, device)
 listbox.pack()
 
+def updatelist() :
+    global listbox
+    global isChangeList
+    listValue = [listbox.get(value) for value in listbox.size()-1]
+    print(listValue)
+    listbox.insert(0, "!!")
+    # for idx in listbox.size() :
+    #     item = listbox.get(idx)
+    #     if item not in conectedDevices :
+    #         print("nono")
+    # for item in conectedDevices :
+    #     if item not in 
+    # isChangeList = 1
+    # if isChangeList == 1 :
+    #     print("!!")
+    #     global conectedDevices
+    #     listbox.delete(0, tk.END)
+    #     for device in conectedDevices :
+    #         listbox.insert(device)
+    #     isChangeList = False
+    listbox.after(5, updatelist)  
+
 # button click event
 buttons = tk.Frame(root, width=5, padx=5)
 buttons.pack()
@@ -286,6 +319,7 @@ addButton("Down", clickDown)
 
 image_path = 'screen.png'
 threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
+threading.Thread(target=updatelist).start()
 # Process(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
 
 root.mainloop()
