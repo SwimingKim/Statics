@@ -112,9 +112,34 @@ h = int(rowHeight * scale)
 def pressKey(event):
     value = repr(event.char)
     keyValue = str(value).replace("'", "")
+    if keyValue == "u" :
+        sendAllMessage("shell input touchscreen swipe 300 300 500 1000 100")
+    elif keyValue == "d" :
+        sendAllMessage("shell input touchscreen swipe 300 1000 500 300 100")
+    else :
+        sendAllMessage("shell input keyevent {}".format(keyValue))
+    print("pressed", keyValue)
+
+def pressScrollUpKey(event):
+    sendAllMessage("input touchscreen swipe 300 300 500 1000 100")
+    print("up")
+
+def pressScrollDownKey(event):
+    print("down")
+    sendAllMessage("input touchscreen swipe 300 1000 500 300 100")
+
+
+    # value = repr(event.char)
+    # keyValue = str(value).replace("'", "")
+    # if str(keyValue) == "\\x04" :
+    #     print("up")
+    #     sendAllMessage("input touchscreen swipe 300 300 500 1000 100")
+    # elif str(keyValue) == "\\x15" :
+    #     print("down")
+    #     sendAllMessage("input touchscreen swipe 300 1000 500 300 100")
     # if keyValue == 
     # sendAllMessage("shell input keyevent {}".format(keyValue))
-    print("pressed", keyValue)
+    # print("pressed", keyValue)
 
 # mouse event
 clickTime = 0
@@ -166,6 +191,8 @@ root.title("Android Devices")
 root.geometry("{}x{}".format(w+600, h))
 root.resizable(True, True)
 root.bind("<Key>", pressKey)
+# root.bind('<Control-U>', pressScrollUpKey)
+# root.bind('<Control-D>', pressScrollDownKey)
 
 left = tk.Frame(root)
 left.pack(side="left")
@@ -319,7 +346,7 @@ addButton("Down", clickDown)
 
 image_path = 'screen.png'
 threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
-threading.Thread(target=updatelist).start()
+# threading.Thread(target=updatelist).start()
 # Process(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
 
 root.mainloop()
