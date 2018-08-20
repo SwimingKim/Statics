@@ -1,14 +1,22 @@
-from tkinter import *
-import PIL.Image
-import PIL.ImageTk
+import tkinter as tk
+window = tk.Tk()
+box = tk.Listbox(window, width=17, height=12, fg="black")
+data = 0
+box.grid(row=0, column=0)
+box.insert(tk.END, data)
 
-root = Toplevel()
+def monitor():
+    global data
 
-im = PIL.Image.open("screen.jpg")
-photo = PIL.ImageTk.PhotoImage(im)
+    print(data)
 
-label = Label(root, image=photo)
-label.image = photo  # keep a reference!
-label.pack()
+    data = data + 1
+    # Update the listbox
+    # 1. clear all
+    box.delete(0, tk.END)
+    # 2. insert new data
+    box.insert(tk.END, data)
+    window.after(1000, monitor)
 
-root.mainloop()
+window.after(10, monitor)
+window.mainloop()

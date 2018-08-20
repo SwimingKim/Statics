@@ -93,6 +93,8 @@ def checkDevices():
         selectedDevice = list(conectedDevices)[0]
         isChangeList = 1
         print(isChangeList, "!!")
+        if __name__ == "__main" :
+            updatelist()
     t = threading.Timer(3, checkDevices)
     t.daemon = True
     t.start()
@@ -229,24 +231,14 @@ listbox.pack()
 def updatelist() :
     global listbox
     global isChangeList
-    listValue = [listbox.get(value) for value in listbox.size()-1]
-    print(listValue)
-    listbox.insert(0, "!!")
-    # for idx in listbox.size() :
-    #     item = listbox.get(idx)
-    #     if item not in conectedDevices :
-    #         print("nono")
-    # for item in conectedDevices :
-    #     if item not in 
-    # isChangeList = 1
-    # if isChangeList == 1 :
-    #     print("!!")
-    #     global conectedDevices
-    #     listbox.delete(0, tk.END)
-    #     for device in conectedDevices :
-    #         listbox.insert(device)
-    #     isChangeList = False
-    listbox.after(5, updatelist)  
+    listValue = set(listbox.get(0, tk.END))
+    addItems = checkDiff(conectedDevices, listValue)
+    removeItems = checkDiff(listValue, conectedDevices)
+    if len(addItems) > 0 or len(removeItems) > 0 :
+        listbox.delete(0, tk.END)
+        for item in conectedDevices :
+            listbox.insert(0, item)
+    listbox.after(1000, updatelist)  
 
 # button click event
 buttons = tk.Frame(root, width=5, padx=5)
@@ -362,7 +354,7 @@ addButton("Down", clickDown)
 if __name__ == "__main__" :
     image_path = 'screen.png'
     threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
-    # threading.Thread(target=updatelist).start()
+    threading.Thread(target=updatelist).start()
     # Process(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
 
     root.mainloop()
