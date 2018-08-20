@@ -260,7 +260,6 @@ def clickGalaxy():
     if __name__ == "__main__" :
         for device in conectedDevices :
             result = sendMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
-            print(result)
             if result == "none" :
                 sendMessage(device, "-d install 0_app-release.apk")
         startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
@@ -297,8 +296,16 @@ def clickCustom():
                 sendMessage(device, "-d install adb.apk")
         startActivity("skim.dev.kr.settingapplication/.MainActivity")
 
+def clickShell() :
+    shell = open("shell.txt", "r")
+    shell = str(shell.read(),)
+    for device in conectedDevices :
+        text = sendMessage(device, shell, True)
+        print(text)
+
 def showShot():
     screenshot(selectedDevice)
+
 
 clickUnlock()
 # sendAllMessage("shell netcfg")
@@ -318,7 +325,7 @@ addButton("home", clickHome)
 addButton("file", clickFile)
 addButton("settings", clickSetting)
 addButton("activity", clickActivity)
-# addButton("Shell", clickSH)
+addButton("Shell", clickShell)
 
 if __name__ == "__main__" :
     image_path = 'screen.png'

@@ -1,0 +1,2 @@
+shell service call iphonesubinfo 1
+shell service call iphonesubinfo 1 | awk -F "'" '{print $2}' | sed '1 d' | tr -d '.' | awk '{print}' ORS=
