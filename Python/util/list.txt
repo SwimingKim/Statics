@@ -1,9 +1,0 @@
-1. 스크린 타임아웃 => 앱 내부에서 코드로 해결
-2. 소리 설정(mute 및 볼륨 사운드) => intent click
-3. auto time off => intent click
-4. 화면 해상도 => intent click(adb 방법도 있음)
-5. 엣지 => intent click
-6. notification => setting intent click
-7. 필요없는 앱 삭제 => 패키지명 정리하면 그걸로 목록 정해서 삭제 가능
-8. 언어 설정 => 바로 intent가 가능한데, 스크롤 부분이 있어서 맨 처음꺼 선택하고 또 다시 english 클릭으로 구현 예정
-9. swipe 해제 => intent click

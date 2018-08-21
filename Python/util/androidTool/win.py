@@ -30,22 +30,20 @@ def findString(value) :
         return "| grep '{}'".format(value)
 
 # bash function
+def sendBash(message, result=False) :
+    if result :
+        text = subprocess.check_output(message, shell=True)
+        return text
+    else :
+        os.system(message)
+        return None
+
 def sendMessage(deviceId, message, result=False):
     if deviceId.__contains__(checkState) :
         return None
-    cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
-    if result :
-        try :
-            text = subprocess.check_output(cmd , shell=True)
-            return text
-        except :
-            return None
-    else :
-        try :
-            os.system(cmd)
-            return "no text"
-        except :
-            pass
+    adb = adbPath()
+    cmd = "%s -s %s %s" % (adb, deviceId, message)
+    return sendBash(cmd, result)
 
 def sendSyncMessage(deviceId, message, result=False) :
     Process(target=sendMessage, args=(deviceId, message, result,)).start()
@@ -98,7 +96,7 @@ def checkDevices():
     global selectedDevice
     renewDevices = set()
     cmd = '{} devices'.format(adbPath())
-    devices = subprocess.check_output(cmd, shell=True)
+    devices = sendBash(cmd, True)
     devicelist = str(devices).split('\\n')
     del devicelist[0]
     for device in devicelist:
@@ -135,10 +133,10 @@ def clickUnlock() :
             screenState = screenState.replace("\\n", "")
             screenState = screenState.replace("'", "")
             isOff = screenState!="ON"
+            if device.__contains__(checkState) :
+                continue
             if isOff :
                 sendMessage(device, "shell input keyevent {}".format(26))
-                sendMessage(device, "shell input keyevent {}".format(82))
-            else :
                 sendMessage(device, "shell input keyevent {}".format(82))
 
 def clickHome():
@@ -214,9 +212,9 @@ def clickDeleteCustom() :
 def clickDebug() :
     if __name__ == "__main__" :
         cmd = "{} kill-server".format(adbPath())
-        os.system(cmd)
+        sendBash(cmd)
         cmd = "{} start-server".format(adbPath())
-        os.system(cmd)
+        sendBash(cmd)
 
 def clickBack() :
     if __name__ == "__main__" :
@@ -307,6 +305,8 @@ clickUnlock()
 root = tk.Tk()
 root.title("Android Devices")
 (w, h) = getScreenSize()
+print(w)
+print(h)
 root.geometry("{}x{}".format(w+600, h))
 root.resizable(True, True)
 root.bind("<Key>", pressKey)
@@ -336,7 +336,7 @@ center.pack(side="left")
 
 # device list
 menuFont = font.Font(size=18)
-listbox = tk.Listbox(center, width=20, height=int(h), font=menuFont)
+listbox = tk.Listbox(center, width=25, height=int(h), font=menuFont)
 listbox.bind('<<ListboxSelect>>',selectItem)
 listbox.pack()
 
@@ -365,7 +365,7 @@ def showShot():
 # os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
 
 def addButton(buttonName, onClick) :
-    button = tk.Button(buttons, height=1, width=80, text=buttonName, command=onClick, font=menuFont)
+    button = tk.Button(buttons, height=1, width=60, text=buttonName, command=onClick, font=menuFont)
     button.pack()
 
 addButton("usb debugging", clickDebug)
