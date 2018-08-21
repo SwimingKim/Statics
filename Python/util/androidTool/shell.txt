@@ -1,5 +1,6 @@
 // shell service call iphonesubinfo 1
 // shell service call iphonesubinfo 1 | awk -F "'" '{print $2}' | sed '1 d' | tr -d '.' | awk '{print}' ORS=
 
-shell input keyevent 26
-shell input keyevent 82
+-d install custom.apk
+// shell input keyevent 26
+// shell input keyevent 82
