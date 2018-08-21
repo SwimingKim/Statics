@@ -122,7 +122,6 @@ def clickUnlock() :
             screenState = screenState.replace("\\n", "")
             screenState = screenState.replace("'", "")
             isOff = screenState!="ON"
-            print(screenState, isOff)
             if isOff :
                 sendMessage(device, "shell input keyevent {}".format(26))
                 sendMessage(device, "shell input keyevent {}".format(82))
@@ -198,13 +197,6 @@ def clickDeleteCustom() :
     if __name__ == "__main__" :
         sendAllMessage("shell am force-stop skim.dev.kr.settingapplication")
         sendAllMessage("uninstall skim.dev.kr.settingapplication")
-
-
-def clickDeleteGalaxy() :
-    if __name__ == "__main__" :
-        sendAllMessage("shell am force-stopcom.imfine.galaxymediafacade")
-        sendAllMessage("com.imfine.galaxymediafacade")
-
 
 # canvas event
 def pressScrollUpKey():
@@ -307,7 +299,7 @@ center = tk.Frame(root)
 center.pack(side="left")
 
 # device list
-menuFont = font.Font(size=26)
+menuFont = font.Font(size=18)
 listbox = tk.Listbox(center, width=20, height=int(h), font=menuFont)
 listbox.bind('<<ListboxSelect>>',selectItem)
 for device in conectedDevices:
@@ -352,7 +344,6 @@ addButton("file", clickFile)
 addButton("settings", clickSetting)
 addButton("activity", clickActivity)
 addButton("Shell", clickShell)
-addButton("delete galaxy", clickDeleteGalaxy)
 addButton("delete custom", clickDeleteCustom)
 
 if __name__ == "__main__" :
