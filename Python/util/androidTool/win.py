@@ -18,7 +18,6 @@ def isWindowOS() :
 def adbPath() :
     home = str(Path.home())
     # print(home)
-    return "c:\\adb\\adb"
     if isWindowOS() :
         return home+"\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
     else :
@@ -32,13 +31,15 @@ def findString(value) :
 
 # bash function
 def sendMessage(deviceId, message, result=False):
+    if deviceId.__contains__("#") :
+        return None
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
         try :
             text = subprocess.check_output(cmd , shell=True)
             return text
         except :
-            return "none"
+            return None
     else :
         try :
             os.system(cmd)
@@ -54,8 +55,10 @@ conectedDevices = set()
 selectedDevice = None
 def screenshot(deviceId) :
     try : 
-        sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
-        sendMessage(deviceId, "pull /sdcard/screen.png")
+        imagePath = "/sdcard/screen.png"
+        sendMessage(deviceId, "shell screencap -p {}".format(imagePath))
+        sendMessage(deviceId, "pull {}".format(imagePath))
+        sendMessage(deviceId, "shell rm -rf {}".format(imagePath))
     except :
         pass
 
@@ -66,12 +69,23 @@ def sendAllMessage(message, result=False):
 def startActivity(package):
     sendAllMessage("shell am start -a android.intent.action.MAIN -n {}".format(package))
 
-
 # screen size
 scale = 0.4
 def scalePostion(value) :
-    # return int(value * scale)
     return int(value * 1/scale)
+
+def getScreenSize() :
+    if selectedDevice == None :
+        return (432, 888)
+    wmSize = sendMessage(selectedDevice, "shell wm size", True)
+    wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
+    wmSize = wmSize.replace("'", "")
+    wmSize = wmSize.replace("\\r", "")
+    rowWidth = int(wmSize.split("x")[0])
+    rowHeight = int(wmSize.split("x")[1])
+    w = int(rowWidth * scale)
+    h = int(rowHeight * scale)
+    return (w, h)
 
 # device list
 def checkDiff(set1, set2) :
@@ -88,31 +102,24 @@ def checkDevices():
     del devicelist[0]
     for device in devicelist:
         device = device.replace("\\r", "")
+        device = device.replace("\\tunauthorized", "#")
         device = device.replace(" ", "")
         device = device.replace("'", "")
         device = device.replace("\\tdevice", "")
-        # device = device.replace("\\tdevice", "")
         if len(device) >= 16:
             renewDevices.add(device)
     if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
         conectedDevices = renewDevices
-        selectedDevice = list(conectedDevices)[0]
+        for device in list(conectedDevices) :
+            if not device.__contains__("#") :
+                print("!!")
+                selectedDevice = device
+                break
         if __name__ == "__main" :
             updatelist()
     t = threading.Timer(3, checkDevices)
     t.daemon = True
     t.start()
-
-checkDevices()
-
-wmSize = sendMessage(selectedDevice, "shell wm size", True)
-wmSize = list(str(wmSize).split("\\nOverride size: "))[-1].replace("\\n", "")
-wmSize = wmSize.replace("'", "")
-wmSize = wmSize.replace("\\r", "")
-rowWidth = int(wmSize.split("x")[0])
-rowHeight = int(wmSize.split("x")[1])
-w = int(rowWidth * scale)
-h = int(rowHeight * scale)
 
 # click event
 def clickUnlock() :
@@ -120,6 +127,8 @@ def clickUnlock() :
         for device in conectedDevices :
             cmd = "shell dumpsys display {}".format(findString("mScreenState"))
             screenState = sendMessage(device, cmd, True)
+            if screenState == None :
+                continue
             screenState = str(screenState).split("=")[1]
             screenState = screenState.replace("\\r", "")
             screenState = screenState.replace("\\n", "")
@@ -151,7 +160,7 @@ def clickGalaxy():
     if __name__ == "__main__" :
         for device in conectedDevices :
             result = sendMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
-            if result == "none" :
+            if result == None :
                 sendMessage(device, "-d install 0_app-release.apk")
         startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
 
@@ -263,18 +272,23 @@ def mouseUp(event):
 def refresh_image(canvas, img, image_path, image_id):
     try:
         showShot()
-        pil_img = Image.open(image_path).resize((w, h), Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(pil_img)
-        canvas.itemconfigure(image_id, image=img)
+        global conectedDevices
+        if selectedDevice != None :
+            pil_img = Image.open(image_path).resize((w, h), Image.ANTIALIAS)
+            img = ImageTk.PhotoImage(pil_img)
+            canvas.itemconfigure(image_id, image=img)
     except:  # missing or corrupt image file
         img = None
     t = threading.Timer(3, refresh_image, args=(canvas, img, image_path, image_id))
     t.start()
-    # canvas.after(50, refresh_image, canvas, img, image_path, image_id)
+
+# get device list
+checkDevices()
 
 # tkinter init
 root = tk.Tk()
 root.title("Android Devices")
+(w, h) = getScreenSize()
 root.geometry("{}x{}".format(w+600, h))
 root.resizable(True, True)
 root.bind("<Key>", pressKey)
@@ -285,6 +299,7 @@ left = tk.Frame(root)
 left.pack(side="left")
 
 canvas= tk.Canvas(left, width=w, height=h)
+canvas.configure(background="black")
 canvas.bind("<ButtonPress-1>", mouseDown)
 canvas.bind("<B1-Motion>", mouseMove)
 canvas.bind("<ButtonRelease-1>", mouseUp)
@@ -296,9 +311,7 @@ def selectItem(event):
     widget = event.widget
     selection=widget.curselection()
     picked = widget.get(selection[0])
-    screenshot(picked)
-    selectedIndex = picked
-    print(picked)
+    selectedDevice = picked
 
 center = tk.Frame(root)
 center.pack(side="left")
@@ -321,7 +334,7 @@ def updatelist() :
         listbox.delete(0, tk.END)
         for item in conectedDevices :
             listbox.insert(0, item)
-    listbox.after(1000, updatelist)  
+    threading.Timer(1, updatelist).start()
 
 buttons = tk.Frame(root, width=5, padx=5)
 buttons.pack()
@@ -331,7 +344,6 @@ def showShot():
 
 
 clickUnlock()
-# sendAllMessage("shell netcfg")
 # os.system("adb shell am force-stop kr.co.nod.cjhtmlplayer_unlock;")
 # os.system("adb shell rm -rf %s" % path)
 # os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
@@ -353,8 +365,8 @@ addButton("delete custom", clickDeleteCustom)
 
 if __name__ == "__main__" :
     image_path = 'screen.png'
-    threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
+    t = threading.Thread(target=refresh_image, args=(canvas, img, image_path, image_id,))
+    t.daemon = True
+    t.start()
     threading.Thread(target=updatelist).start()
-    # Process(target=refresh_image, args=(canvas, img, image_path, image_id,)).start()
-
     root.mainloop()
