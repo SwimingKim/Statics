@@ -31,7 +31,7 @@ def findString(value) :
 
 # bash function
 def sendMessage(deviceId, message, result=False):
-    if deviceId.__contains__("#") :
+    if deviceId.__contains__(checkState) :
         return None
     cmd = "%s -s %s %s" % (adbPath(), deviceId, message)
     if result :
@@ -88,6 +88,7 @@ def getScreenSize() :
     return (w, h)
 
 # device list
+checkState = "*"
 def checkDiff(set1, set2) :
     return [x for x in set1 if x not in set2]
 
@@ -102,7 +103,7 @@ def checkDevices():
     del devicelist[0]
     for device in devicelist:
         device = device.replace("\\r", "")
-        device = device.replace("\\tunauthorized", "#")
+        device = device.replace("\\tunauthorized", checkState)
         device = device.replace(" ", "")
         device = device.replace("'", "")
         device = device.replace("\\tdevice", "")
@@ -110,9 +111,9 @@ def checkDevices():
             renewDevices.add(device)
     if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
         conectedDevices = renewDevices
+        print(conectedDevices)
         for device in list(conectedDevices) :
-            if not device.__contains__("#") :
-                print("!!")
+            if not device.__contains__(checkState) :
                 selectedDevice = device
                 break
         if __name__ == "__main" :
@@ -232,8 +233,6 @@ def pressKey(event):
         clickSetting()
     elif keyValue == "q" :
         clickQuit()
-    # else :
-    #     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
 
 # mouse event
@@ -320,8 +319,6 @@ center.pack(side="left")
 menuFont = font.Font(size=18)
 listbox = tk.Listbox(center, width=20, height=int(h), font=menuFont)
 listbox.bind('<<ListboxSelect>>',selectItem)
-for device in conectedDevices:
-    listbox.insert(0, device)
 listbox.pack()
 
 def updatelist() :
@@ -334,6 +331,8 @@ def updatelist() :
         listbox.delete(0, tk.END)
         for item in conectedDevices :
             listbox.insert(0, item)
+            if item.__contains__(checkState) :
+                listbox.itemconfig(0, {"fg": "#f0f0f0", "bg": "#eb9f9f"})
     threading.Timer(1, updatelist).start()
 
 buttons = tk.Frame(root, width=5, padx=5)
