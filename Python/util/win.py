@@ -44,12 +44,18 @@ def sendMessage(deviceId, message, result=False):
         except :
             pass
 
+def sendSyncMessage(deviceId, message, result=False) :
+    Process(target=sendMessage, args=(deviceId, message, result,)).start()
+
 # adb function
 conectedDevices = set()
 selectedDevice = None
 def screenshot(deviceId) :
-    sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
-    sendMessage(deviceId, "pull /sdcard/screen.png")
+    try : 
+        sendMessage(deviceId, "shell screencap -p /sdcard/screen.png")
+        sendMessage(deviceId, "pull /sdcard/screen.png")
+    except :
+        pass
 
 def sendAllMessage(message, result=False):
     for device in conectedDevices:
@@ -105,6 +111,101 @@ rowHeight = int(wmSize.split("x")[1])
 w = int(rowWidth * scale)
 h = int(rowHeight * scale)
 
+# click event
+def clickUnlock() :
+    if __name__ == "__main__" :
+        for device in conectedDevices :
+            cmd = "shell dumpsys display {}".format(findString("mScreenState"))
+            screenState = sendMessage(device, cmd, True)
+            screenState = str(screenState).split("=")[1]
+            screenState = screenState.replace("\\r", "")
+            screenState = screenState.replace("\\n", "")
+            screenState = screenState.replace("'", "")
+            isOff = screenState!="ON"
+            print(screenState, isOff)
+            if isOff :
+                sendMessage(device, "shell input keyevent {}".format(26))
+                sendMessage(device, "shell input keyevent {}".format(82))
+            else :
+                sendMessage(device, "shell input keyevent {}".format(82))
+
+def clickHome():
+    if __name__ == "__main__" :
+        sendAllMessage("shell input keyevent {}".format(3))
+
+def clickFile():
+    if __name__ == "__main__" :
+        startActivity("com.sec.android.app.myfiles/.common.MainActivity")
+
+def clickSetting():
+    if __name__ == "__main__" :
+        startActivity("com.android.settings/.Settings")
+
+def clickBack():
+    if __name__ == "__main__" :
+        sendAllMessage("shell input keyevent 4")
+
+def clickGalaxy():
+    if __name__ == "__main__" :
+        for device in conectedDevices :
+            result = sendMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
+            if result == "none" :
+                sendMessage(device, "-d install 0_app-release.apk")
+        startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
+
+def closeActivity(device):
+    if __name__ == "__main__" :
+        value = sendMessage(device, "shell am stack list", True)
+        packages = str(value).split(" ")
+        for package in packages :
+            if not(package.__contains__("/")):
+                continue
+            package = package.split("/")[0]
+            if package.__contains__("{") :
+                package = package.split("{")[1]
+            sendMessage(device, "shell am force-stop {};".format(package))
+
+def clickQuit():
+    if __name__ == "__main__" :
+        for device in conectedDevices:
+            Process(target=closeActivity, args=(device,)).start()
+    # sendAllMessage("shell input tap 150 1440")
+    # time.sleep(2)
+    # sendAllMessage("shell input tap 350 1350")
+
+def clickActivity():
+    if __name__ == "__main__" :
+        sendAllMessage("shell am stack list")
+
+def clickCustom():
+    if __name__ == "__main__" :
+        for device in conectedDevices :
+            result = sendMessage(device, "shell pm list package -f {}".format(findString("skim.dev.kr.settingapplication")), True)
+            if result == "none" :
+                sendMessage(device, "-d install adb.apk")
+        startActivity("skim.dev.kr.settingapplication/.MainActivity")
+
+def clickShell() :
+    if __name__ == "__main__" :
+        shell = open("shell.txt", "r")
+        shell = str(shell.read(),)
+        for device in conectedDevices :
+            if not shell.__contains__("//") :
+                text = sendMessage(device, shell, True)
+                print(text)
+
+def clickDeleteCustom() :
+    if __name__ == "__main__" :
+        sendAllMessage("shell am force-stop skim.dev.kr.settingapplication")
+        sendAllMessage("uninstall skim.dev.kr.settingapplication")
+
+
+def clickDeleteGalaxy() :
+    if __name__ == "__main__" :
+        sendAllMessage("shell am force-stopcom.imfine.galaxymediafacade")
+        sendAllMessage("com.imfine.galaxymediafacade")
+
+
 # canvas event
 def pressScrollUpKey():
     sendAllMessage("shell input touchscreen swipe 300 300 500 1000 100")
@@ -120,11 +221,13 @@ def pressKey(event):
     elif keyValue == "d" :
         pressScrollDownKey()
     elif keyValue == "h" :
-        sendAllMessage("shell input keyevent {}".format(3))
+        clickHome()
     elif keyValue == "f" :
-        startActivity("com.sec.android.app.myfiles/.common.MainActivity")
+        clickFile()
     elif keyValue == "s" :
-        startActivity("com.android.settings/.Settings")
+        clickSetting()
+    elif keyValue == "q" :
+        clickQuit()
     # else :
     #     sendAllMessage("shell input keyevent {}".format(keyValue))
     print("pressed", keyValue)
@@ -163,12 +266,12 @@ def mouseUp(event):
 
 # image reload
 def refresh_image(canvas, img, image_path, image_id):
-    showShot()
     try:
+        showShot()
         pil_img = Image.open(image_path).resize((w, h), Image.ANTIALIAS)
         img = ImageTk.PhotoImage(pil_img)
         canvas.itemconfigure(image_id, image=img)
-    except IOError:  # missing or corrupt image file
+    except:  # missing or corrupt image file
         img = None
     canvas.after(50, refresh_image, canvas, img, image_path, image_id)  
 
@@ -223,85 +326,8 @@ def updatelist() :
             listbox.insert(0, item)
     listbox.after(1000, updatelist)  
 
-# button click event
 buttons = tk.Frame(root, width=5, padx=5)
 buttons.pack()
-
-def clickUnlock() :
-    if __name__ == "__main__" :
-        for device in conectedDevices :
-            cmd = "shell dumpsys display {}".format(findString("mScreenState"))
-            screenState = sendMessage(device, cmd, True)
-            screenState = str(screenState).split("=")[1]
-            screenState = str(screenState).replace("\\n", "")
-            screenState = str(screenState).replace("'", "")
-            isOff = screenState!="ON"
-            if isOff :
-                sendMessage(device, "shell input keyevent {}".format(26))
-        sendAllMessage("shell input keyevent {}".format(82))
-
-def clickHome():
-    if __name__ == "__main__" :
-        sendAllMessage("shell input keyevent {}".format(3))
-
-def clickFile():
-    if __name__ == "__main__" :
-        startActivity("com.sec.android.app.myfiles/.common.MainActivity")
-
-def clickSetting():
-    if __name__ == "__main__" :
-        startActivity("com.android.settings/.Settings")
-
-def clickBack():
-    if __name__ == "__main__" :
-        sendAllMessage("shell input keyevent 4")
-
-def clickGalaxy():
-    if __name__ == "__main__" :
-        for device in conectedDevices :
-            result = sendMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
-            if result == "none" :
-                sendMessage(device, "-d install 0_app-release.apk")
-        startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
-
-def closeActivity(device):
-    if __name__ == "__main__" :
-        value = sendMessage(device, "shell am stack list", True)
-        packages = str(value).split(" ")
-        for package in packages :
-            if not(package.__contains__("/")):
-                continue
-            package = package.split("/")[0]
-            if package.__contains__("{") :
-                package = package.split("{")[1]
-            sendMessage(device, "shell am force-stop {};".format(package))
-
-def clickClose():
-    if __name__ == "__main__" :
-        for device in conectedDevices:
-            Process(target=closeActivity, args=(device,)).start()
-    # sendAllMessage("shell input tap 150 1440")
-    # time.sleep(2)
-    # sendAllMessage("shell input tap 350 1350")
-
-def clickActivity():
-    if __name__ == "__main__" :
-        sendAllMessage("shell am stack list")
-
-def clickCustom():
-    if __name__ == "__main__" :
-        for device in conectedDevices :
-            result = sendMessage(device, "shell pm list package -f {}".format(findString("skim.dev.kr.settingapplication")), True)
-            if result == "none" :
-                sendMessage(device, "-d install adb.apk")
-        startActivity("skim.dev.kr.settingapplication/.MainActivity")
-
-def clickShell() :
-    shell = open("shell.txt", "r")
-    shell = str(shell.read(),)
-    for device in conectedDevices :
-        text = sendMessage(device, shell, True)
-        print(text)
 
 def showShot():
     screenshot(selectedDevice)
@@ -320,12 +346,14 @@ def addButton(buttonName, onClick) :
 addButton("unlock", clickUnlock)
 addButton("custom", clickCustom)
 addButton("galaxy", clickGalaxy)
-addButton("close all", clickClose)
+addButton("quit alls", clickQuit)
 addButton("home", clickHome)
 addButton("file", clickFile)
 addButton("settings", clickSetting)
 addButton("activity", clickActivity)
 addButton("Shell", clickShell)
+addButton("delete galaxy", clickDeleteGalaxy)
+addButton("delete custom", clickDeleteCustom)
 
 if __name__ == "__main__" :
     image_path = 'screen.png'
