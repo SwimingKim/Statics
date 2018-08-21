@@ -31,12 +31,15 @@ def findString(value) :
 
 # bash function
 def sendBash(message, result=False) :
-    if result :
-        text = subprocess.check_output(message, shell=True)
-        return text
-    else :
-        os.system(message)
-        return None
+    try :
+        if result :
+            text = subprocess.check_output(message, shell=True)
+            return text
+        else :
+            os.system(message)
+            return None
+    except :
+        pass
 
 def sendMessage(deviceId, message, result=False):
     if deviceId.__contains__(checkState) :
@@ -109,6 +112,7 @@ def checkDevices():
             renewDevices.add(device)
     if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
         conectedDevices = renewDevices
+        clickUnlock()
         print(conectedDevices, "목록 갱신")
         for device in list(conectedDevices) :
             if not device.__contains__(checkState) :
@@ -132,12 +136,13 @@ def clickUnlock() :
             screenState = screenState.replace("\\r", "")
             screenState = screenState.replace("\\n", "")
             screenState = screenState.replace("'", "")
-            isOff = screenState!="ON"
+            isOn = screenState=="ON"
             if device.__contains__(checkState) :
                 continue
-            if isOff :
+            if isOn :
                 sendMessage(device, "shell input keyevent {}".format(26))
-                sendMessage(device, "shell input keyevent {}".format(82))
+            sendMessage(device, "shell input keyevent {}".format(26))
+            sendMessage(device, "shell input keyevent {}".format(82))
 
 def clickHome():
     if __name__ == "__main__" :
@@ -202,7 +207,9 @@ def clickShell() :
         for device in conectedDevices :
             if not shell.__contains__("//") :
                 text = sendMessage(device, shell, True)
+                print("####")
                 print(text)
+                print("####")
 
 def clickDeleteCustom() :
     if __name__ == "__main__" :
@@ -299,14 +306,11 @@ def refresh_image(canvas, img, image_path, image_id):
 
 # get device list
 checkDevices()
-clickUnlock()
 
 # tkinter init
 root = tk.Tk()
 root.title("Android Devices")
 (w, h) = getScreenSize()
-print(w)
-print(h)
 root.geometry("{}x{}".format(w+600, h))
 root.resizable(True, True)
 root.bind("<Key>", pressKey)
