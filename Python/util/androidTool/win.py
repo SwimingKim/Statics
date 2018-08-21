@@ -136,13 +136,14 @@ def clickUnlock() :
             screenState = screenState.replace("\\r", "")
             screenState = screenState.replace("\\n", "")
             screenState = screenState.replace("'", "")
-            isOn = screenState=="ON"
+            isOn = screenState.__contains__("On")
             if device.__contains__(checkState) :
                 continue
             if isOn :
+                sendMessage(device, "shell input keyevent {}".format(82))
+            else :
                 sendMessage(device, "shell input keyevent {}".format(26))
-            sendMessage(device, "shell input keyevent {}".format(26))
-            sendMessage(device, "shell input keyevent {}".format(82))
+                sendMessage(device, "shell input keyevent {}".format(82))
 
 def clickHome():
     if __name__ == "__main__" :
