@@ -111,7 +111,7 @@ def checkDevices():
             renewDevices.add(device)
     if len(checkDiff(conectedDevices, renewDevices)) > 0 or len(checkDiff(renewDevices, conectedDevices)) > 0 :
         conectedDevices = renewDevices
-        print(conectedDevices)
+        print(conectedDevices, "목록 갱신")
         for device in list(conectedDevices) :
             if not device.__contains__(checkState) :
                 selectedDevice = device
@@ -211,12 +211,24 @@ def clickDeleteCustom() :
         sendAllMessage("shell am force-stop skim.dev.kr.settingapplication")
         sendAllMessage("uninstall skim.dev.kr.settingapplication")
 
+def clickDebug() :
+    if __name__ == "__main__" :
+        cmd = "{} kill-server".format(adbPath())
+        os.system(cmd)
+        cmd = "{} start-server".format(adbPath())
+        os.system(cmd)
+
+def clickBack() :
+    if __name__ == "__main__" :
+        sendAllMessage("shell input keyevent {}".format(4))
+        # sendSyncMessage("shell input keyevent 4")
+
 # canvas event
 def pressScrollUpKey():
-    sendAllMessage("shell input touchscreen swipe 300 300 500 1000 100")
+    sendAllMessage("shell input touchscreen swipe 300 300 500 800 100")
 
 def pressScrollDownKey():
-    sendAllMessage("shell input touchscreen swipe 300 1000 500 300 100")
+    sendAllMessage("shell input touchscreen swipe 300 800 500 300 100")
 
 def pressKey(event):
     value = repr(event.char)
@@ -233,6 +245,12 @@ def pressKey(event):
         clickSetting()
     elif keyValue == "q" :
         clickQuit()
+    elif keyValue == "c" :
+        clickCustom()
+    elif keyValue == "g" :
+        clickGalaxy()
+    elif keyValue == "b" :
+        clickBack()
     print("pressed", keyValue)
 
 # mouse event
@@ -283,6 +301,7 @@ def refresh_image(canvas, img, image_path, image_id):
 
 # get device list
 checkDevices()
+clickUnlock()
 
 # tkinter init
 root = tk.Tk()
@@ -341,8 +360,6 @@ buttons.pack()
 def showShot():
     screenshot(selectedDevice)
 
-
-clickUnlock()
 # os.system("adb shell am force-stop kr.co.nod.cjhtmlplayer_unlock;")
 # os.system("adb shell rm -rf %s" % path)
 # os.system("adb shell am start -a android.intent.action.MAIN -n kr.co.nod.cjhtmlplayer_unlock/.display.activity.CJInitActivity")
@@ -351,13 +368,17 @@ def addButton(buttonName, onClick) :
     button = tk.Button(buttons, height=1, width=80, text=buttonName, command=onClick, font=menuFont)
     button.pack()
 
+addButton("usb debugging", clickDebug)
 addButton("unlock", clickUnlock)
-addButton("custom", clickCustom)
-addButton("galaxy", clickGalaxy)
-addButton("quit alls", clickQuit)
-addButton("home", clickHome)
-addButton("file", clickFile)
-addButton("settings", clickSetting)
+addButton("(c) custom", clickCustom)
+addButton("(g) galaxy", clickGalaxy)
+addButton("(q) quit alls", clickQuit)
+addButton("(h) home", clickHome)
+addButton("(f) file", clickFile)
+addButton("(s) settings", clickSetting)
+addButton("(u) scrollUp", pressScrollUpKey)
+addButton("(d) scrollDown", pressScrollDownKey)
+addButton("(b) back", clickBack)
 addButton("activity", clickActivity)
 addButton("Shell", clickShell)
 addButton("delete custom", clickDeleteCustom)
