@@ -10,18 +10,24 @@ import threading
 from multiprocessing import Process, Lock
 import platform
 from pathlib import Path
+import json
+from pprint import pprint
 
 # OS function
 def isWindowOS() :
     return platform.system() == "Windows"
 
 def adbPath() :
-    home = str(Path.home())
-    # print(home)
-    if isWindowOS() :
-        return home+"\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
-    else :
-        return home+"/Library/Android/sdk/platform-tools/adb"
+    try :
+        setting = open("setting.json", "r").read()
+        data = json.loads(setting)
+        return data["adb"]
+    except :
+        home = str(Path.home())
+        if isWindowOS() :
+            return home+"\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb"
+        else :
+            return home+"/Library/Android/sdk/platform-tools/adb"
 
 def findString(value) :
     if isWindowOS() :
