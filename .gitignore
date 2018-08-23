@@ -4,7 +4,6 @@ __pycache__/
 
 .vscode/
 build/
-dist/
 demo.spec
 test.png
 capture.png

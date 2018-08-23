@@ -1,3 +1,5 @@
+#-*-coding:utf-8
+
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import font
