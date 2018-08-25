@@ -19,12 +19,16 @@ from pprint import pprint
 def isWindowOS() :
     return platform.system() == "Windows"
 
-resourcePath = os.getcwd() + "/resources/"
-if isWindowOS() :
-    resourcePath = os.getcwd() + "\\resources\\"
+def resourcePath() :
+    home = str(Path.home())
+    if isWindowOS() :
+        return home+"\\Desktop\\androidtool\\resources\\"
+    else :
+        return home+"/Desktop/androidtool/resources/"
+
 def adbPath() :
     try :
-        setting = open("{}setting.json".format(resourcePath), "r").read()
+        setting = open("{}setting.json".format(resourcePath()), "r").read()
         data = json.loads(setting)
         return data["adb"]
     except :
@@ -203,7 +207,7 @@ def clickCustom():
 
 def clickShell() :
     if __name__ == "__main__" :
-        shell = open("shell.txt", "r")
+        shell = open("{}shell.txt".format(resourcePath()), "r")
         shell = str(shell.read(),)
         for device in conectedDevices :
             if not shell.__contains__("//") :
@@ -372,11 +376,11 @@ def clickNote() :
 
 def clickInstallCustom() :
     if __name__ == "__main__" :
-        sendAllMessage("-d install {}custom.apk".format(resourcePath))
+        sendAllMessage("-d install {}custom.apk".format(resourcePath()))
 
 def clickInstallGalaxy() :
     if __name__ == "__main__" :
-        sendAllMessage("-d install {}galaxy.apk".format(resourcePath))
+        sendAllMessage("-d install {}galaxy.apk".format(resourcePath()))
 
 # canvas event
 def pressScrollUpKey():
