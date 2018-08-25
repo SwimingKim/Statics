@@ -131,6 +131,7 @@ def checkDevices():
     t.start()
 
 # click event
+waitTime = 5
 def clickUnlock() :
     if __name__ == "__main__" :
         for device in conectedDevices :
@@ -225,136 +226,144 @@ def clickBack() :
 
 def clickUpdate() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 390 258")
-        time.sleep(3)
+        time.sleep(waitTime)
         pressScrollDownKey()
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 371 1230")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 580 426")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 580 590")
 
 def clickEdge() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 329 426")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 329 426")
-        time.sleep(3)
+        time.sleep(waitTime)
         # pressScrollDownKey()
         sendAllMessage("shell input touchscreen swipe 300 800 500 550 100")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 400 1292")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 360 603")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 360 710")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 630 681")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 627 808")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 627 953")
 
 def clickNavi() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 360 511")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input touchscreen swipe 300 800 500 550 100")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 340 1135")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 644 224")
 
 def clickNoti() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 540 330")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 558 432")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 629 262")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 647 610")
 
 def clickConnection() :
     if __name__ == "__main__" :
-        sendAllMessage("shell input tap 560 595")
-        time.sleep(3)
-        sendAllMessage("shell input tap 497 215")
-        time.sleep(3)
-        sendAllMessage("shell input tap 663 629")
-        time.sleep(3)
-        sendAllMessage("shell input tap 663 320")
-        time.sleep(3)
-        sendAllMessage("shell input tap 663 839")
+        time.sleep(1)
+        sendAllMessage("shell input tap 424 592")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 640 187")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 640 198")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 640 814")
 
 def clickLocation() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 542 682")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 650 166")
 
 def clickScan() :
     if __name__ == "__main__" :
-        sendAllMessage("shell input tap 542 781")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 206")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 1356")
-        time.sleep(3)
-        sendAllMessage("shell input tap 647 191")
+        time.sleep(1)
+        sendAllMessage("shell input tap 560 595")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 497 215")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 370 1280")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 644 191")
 
 def clickSound() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 542 860")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 542 194")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 542 361")
-        time.sleep(3)
+        time.sleep(waitTime)
         clickBack()
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 862")
-        time.sleep(3)
-        sendAllMessage("shell input touchscreen swipe 263 220 51 220 100")
-        time.sleep(3)
-        sendAllMessage("shell input touchscreen swipe 333 215 82 37 100")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 542 575")
+        time.sleep(waitTime)
+        sendAllMessage("shell input touchscreen swipe 263 220 82 220 100")
+        time.sleep(waitTime)
+        sendAllMessage("shell input touchscreen swipe 333 380 82 380 100")
 
 def clickDisplay() :
     if __name__ == "__main__" :
+        time.sleep(1)
         sendAllMessage("shell input tap 590 230")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 877 370")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 960 575")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 585 1567")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 58 575")
-        time.sleep(3)
+        time.sleep(waitTime)
         sendAllMessage("shell input tap 828 156")
 
 def clickGoogle() :
     if __name__ == "__main__" :
-        sendAllMessage("shell input tap 855 1411")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 619")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 412")
+        time.sleep(1)
+        sendAllMessage("shell input tap 388 1037")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 331 411")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 375 241")
 
 def clickSwipe() :
     if __name__ == "__main__" :
-        sendAllMessage("shell input tap 855 1548")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 1098")
+        time.sleep(1)
+        sendAllMessage("shell input tap 403 1127")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 373 710")
 
 def clickAutoTime() :
     if __name__ == "__main__" :
-        sendAllMessage("shell input tap 855 1672")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 1098")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 323")
+        time.sleep(1)
+        sendAllMessage("shell input tap 300 946")
+        time.sleep(waitTime)
+        sendAllMessage("shell input tap 646 219")
 
 def clickNote() :
     if __name__ == "__main__" :
