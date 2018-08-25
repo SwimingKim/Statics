@@ -19,9 +19,12 @@ from pprint import pprint
 def isWindowOS() :
     return platform.system() == "Windows"
 
+resourcePath = os.getcwd() + "/resources"
+if isWindowOS() :
+    resourcePath = os.getcwd() + "\\resources"
 def adbPath() :
     try :
-        setting = open("setting.json", "r").read()
+        setting = open("{}/setting.json".format(resourcePath), "r").read()
         data = json.loads(setting)
         return data["adb"]
     except :
@@ -369,11 +372,11 @@ def clickNote() :
 
 def clickInstallCustom() :
     if __name__ == "__main__" :
-        sendAllMessage("-d install custom.apk")
+        sendAllMessage("-d install {}/custom.apk".format(resourcePath))
 
 def clickInstallGalaxy() :
     if __name__ == "__main__" :
-        sendAllMessage("-d install galaxy.apk")
+        sendAllMessage("-d install {}/galaxy.apk".format(resourcePath))
 
 # canvas event
 def pressScrollUpKey():
