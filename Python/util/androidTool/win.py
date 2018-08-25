@@ -167,10 +167,6 @@ def clickBack():
 
 def clickGalaxy():
     if __name__ == "__main__" :
-        for device in conectedDevices :
-            result = sendSyncMessage(device, "shell pm list package -f {}".format(findString("com.imfine.galaxymediafacade")), True)
-            if result == None :
-                sendSyncMessage(device, "-d install galaxy.apk")
         startActivity("com.imfine.galaxymediafacade/com.imfine.galaxymediafacade.MainActivity")
 
 def closeActivity(device):
@@ -199,10 +195,6 @@ def clickActivity():
 
 def clickCustom():
     if __name__ == "__main__" :
-        for device in conectedDevices :
-            result = sendSyncMessage(device, "shell pm list package -f {}".format(findString("skim.dev.kr.settingapplication")), True)
-            if result == "none" :
-                sendSyncMessage(device, "-d install custom.apk")
         startActivity("skim.dev.kr.settingapplication/.MainActivity")
 
 def clickShell() :
@@ -233,13 +225,11 @@ def clickBack() :
 
 def clickUpdate() :
     if __name__ == "__main__" :
-        clickCustom()
-        time.sleep(3)
-        sendAllMessage("shell input tap 544 176")
+        sendAllMessage("shell input tap 390 258")
         time.sleep(3)
         pressScrollDownKey()
         time.sleep(3)
-        sendAllMessage("shell input tap 580 959")
+        sendAllMessage("shell input tap 371 1230")
         time.sleep(3)
         sendAllMessage("shell input tap 580 426")
         time.sleep(3)
@@ -247,10 +237,11 @@ def clickUpdate() :
 
 def clickEdge() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 329 426")
         time.sleep(3)
-        sendAllMessage("shell input tap 329 336")
+        sendAllMessage("shell input tap 329 426")
         time.sleep(3)
+        # pressScrollDownKey()
         sendAllMessage("shell input touchscreen swipe 300 800 500 550 100")
         time.sleep(3)
         sendAllMessage("shell input tap 400 1292")
@@ -259,104 +250,92 @@ def clickEdge() :
         time.sleep(3)
         sendAllMessage("shell input tap 360 710")
         time.sleep(3)
-        sendAllMessage("shell input tap 630 820")
+        sendAllMessage("shell input tap 630 681")
         time.sleep(3)
-        sendAllMessage("shell input tap 630 940")
+        sendAllMessage("shell input tap 627 808")
+        time.sleep(3)
+        sendAllMessage("shell input tap 627 953")
 
 def clickNavi() :
     if __name__ == "__main__" :
-        clickCustom()
-        time.sleep(3)
-        sendAllMessage("shell input tap 360 420")
+        sendAllMessage("shell input tap 360 511")
         time.sleep(3)
         sendAllMessage("shell input touchscreen swipe 300 800 500 550 100")
         time.sleep(3)
-        sendAllMessage("shell input tap 340 1250")
+        sendAllMessage("shell input tap 340 1135")
         time.sleep(3)
-        sendAllMessage("shell input tap 623 241")
+        sendAllMessage("shell input tap 644 224")
 
 def clickNoti() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 540 330")
         time.sleep(3)
-        sendAllMessage("shell input tap 540 260")
+        sendAllMessage("shell input tap 558 432")
         time.sleep(3)
-        sendAllMessage("shell input tap 558 466")
+        sendAllMessage("shell input tap 629 262")
         time.sleep(3)
-        sendAllMessage("shell input tap 639 256")
-        time.sleep(3)
-        sendAllMessage("shell input tap 639 584")
+        sendAllMessage("shell input tap 647 610")
 
 def clickConnection() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 560 595")
         time.sleep(3)
-        sendAllMessage("shell input tap 560 512")
+        sendAllMessage("shell input tap 497 215")
         time.sleep(3)
-        sendAllMessage("shell input tap 497 200")
+        sendAllMessage("shell input tap 663 629")
         time.sleep(3)
-        sendAllMessage("shell input tap 630 200")
+        sendAllMessage("shell input tap 663 320")
         time.sleep(3)
-        sendAllMessage("shell input tap 630 325")
-        time.sleep(3)
-        sendAllMessage("shell input tap 630 742")
+        sendAllMessage("shell input tap 663 839")
 
 def clickLocation() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 542 682")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 898")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 272")
+        sendAllMessage("shell input tap 650 166")
 
 def clickScan() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 542 781")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 1030")
+        sendAllMessage("shell input tap 542 206")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 272")
+        sendAllMessage("shell input tap 542 1356")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 1840")
-        time.sleep(3)
-        sendAllMessage("shell input tap 893 293")
+        sendAllMessage("shell input tap 647 191")
 
 def clickSound() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 542 860")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 1152")
+        sendAllMessage("shell input tap 542 194")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 311")
-        time.sleep(3)
-        sendAllMessage("shell input tap 542 542")
+        sendAllMessage("shell input tap 542 361")
         time.sleep(3)
         clickBack()
         time.sleep(3)
         sendAllMessage("shell input tap 542 862")
         time.sleep(3)
-        sendAllMessage("shell input touchscreen swipe 333 344 98 344 100")
+        sendAllMessage("shell input touchscreen swipe 263 220 51 220 100")
         time.sleep(3)
-        sendAllMessage("shell input touchscreen swipe 333 574 82 574 100")
+        sendAllMessage("shell input touchscreen swipe 333 215 82 37 100")
 
 def clickDisplay() :
     if __name__ == "__main__" :
-        clickCustom()
+        sendAllMessage("shell input tap 590 230")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 1257")
+        sendAllMessage("shell input tap 877 370")
         time.sleep(3)
-        sendAllMessage("shell input tap 822 365")
+        sendAllMessage("shell input tap 960 575")
         time.sleep(3)
-        sendAllMessage("shell input tap 542 1435")
+        sendAllMessage("shell input tap 585 1567")
         time.sleep(3)
-        sendAllMessage("shell input tap 102 535")
+        sendAllMessage("shell input tap 58 575")
         time.sleep(3)
-        sendAllMessage("shell input tap 830 129")
+        sendAllMessage("shell input tap 828 156")
 
 def clickGoogle() :
     if __name__ == "__main__" :
-        clickCustom()
-        time.sleep(3)
         sendAllMessage("shell input tap 855 1411")
         time.sleep(3)
         sendAllMessage("shell input tap 542 619")
@@ -365,16 +344,12 @@ def clickGoogle() :
 
 def clickSwipe() :
     if __name__ == "__main__" :
-        clickCustom()
-        time.sleep(3)
         sendAllMessage("shell input tap 855 1548")
         time.sleep(3)
         sendAllMessage("shell input tap 542 1098")
 
-def clickTime() :
+def clickAutoTime() :
     if __name__ == "__main__" :
-        clickCustom()
-        time.sleep(3)
         sendAllMessage("shell input tap 855 1672")
         time.sleep(3)
         sendAllMessage("shell input tap 542 1098")
@@ -384,6 +359,14 @@ def clickTime() :
 def clickNote() :
     if __name__ == "__main__" :
         startActivity("com.samsung.android.app.spage/com.samsung.android.app.spage.main.MainActivity")
+
+def clickInstallCustom() :
+    if __name__ == "__main__" :
+        sendAllMessage("-d install custom.apk")
+
+def clickInstallGalaxy() :
+    if __name__ == "__main__" :
+        sendAllMessage("-d install galaxy.apk")
 
 # canvas event
 def pressScrollUpKey():
@@ -537,6 +520,7 @@ def addButton(obj, buttonName, onClick) :
 
 addButton(buttons, "usb debugging", clickDebug)
 addButton(buttons, "(l) unlock", clickUnlock)
+addButton(buttons, "(g) galaxy", clickGalaxy)
 addButton(buttons, "(c) custom", clickCustom)
 addButton(buttons, "(q) quit alls", clickQuit)
 addButton(buttons, "(h) home", clickHome)
@@ -553,18 +537,20 @@ addButton(buttons, "delete custom", clickDeleteCustom)
 customs = tk.Frame(root, width=5, padx=5)
 customs.pack(side="left")
 
+addButton(customs, "install custom", clickInstallCustom)
 addButton(customs, "display", clickDisplay)
 addButton(customs, "update", clickUpdate)
 addButton(customs, "notification", clickNoti)
 addButton(customs, "time & edge", clickEdge)
 addButton(customs, "navi", clickNavi)
-addButton(customs, "connectin", clickConnection)
+addButton(customs, "connection", clickConnection)
 addButton(customs, "location", clickLocation)
 addButton(customs, "scanning", clickScan)
 addButton(customs, "sound", clickSound)
+addButton(customs, "auto time", clickAutoTime)
 addButton(customs, "ok google", clickGoogle)
-addButton(customs, "auto time", clickTime)
-addButton(customs, "(g) galaxy", clickGalaxy)
+addButton(customs, "swipe", clickSwipe)
+addButton(customs, "install galaxy", clickInstallGalaxy)
 
 if __name__ == "__main__" :
     image_path = 'screen.png'
