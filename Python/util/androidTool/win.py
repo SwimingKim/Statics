@@ -131,7 +131,7 @@ def checkDevices():
     t.start()
 
 # click event
-waitTime = 5
+waitTime = 2
 def clickUnlock() :
     if __name__ == "__main__" :
         for device in conectedDevices :
@@ -242,8 +242,6 @@ def clickEdge() :
         time.sleep(1)
         sendAllMessage("shell input tap 329 426")
         time.sleep(waitTime)
-        sendAllMessage("shell input tap 329 426")
-        time.sleep(waitTime)
         # pressScrollDownKey()
         sendAllMessage("shell input touchscreen swipe 300 800 500 550 100")
         time.sleep(waitTime)
@@ -306,7 +304,7 @@ def clickScan() :
         time.sleep(waitTime)
         sendAllMessage("shell input tap 497 215")
         time.sleep(waitTime)
-        sendAllMessage("shell input tap 370 1280")
+        sendAllMessage("shell input tap 370 1362")
         time.sleep(waitTime)
         sendAllMessage("shell input tap 644 191")
 
