@@ -211,8 +211,7 @@ def clickShell() :
         shell = str(shell.read(),)
         for device in conectedDevices :
             if not shell.__contains__("//") :
-                text = sendMessage(device, shell, True)
-                print(text)
+                sendMessage(device, shell)
 
 def clickDeleteCustom() :
     if __name__ == "__main__" :
@@ -465,7 +464,7 @@ def refresh_image(canvas, img, image_path, image_id):
 
 # get device list
 checkDevices()
-clickUnlock()
+# clickUnlock()
 
 # tkinter init
 root = tk.Tk()
