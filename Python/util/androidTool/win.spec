@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['win.py'],
-             pathex=['/Users/suyoung/Documents/dev/git/Statics/Python/util/androidTool'],
+             pathex=['D:\\dev\\python\\Statics\\Python\\util\\androidTool'],
              binaries=[],
              datas=[],
              hiddenimports=[],
